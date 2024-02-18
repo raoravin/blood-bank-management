@@ -6,7 +6,7 @@ const userSchema = new mongoose.Schema({
         require:[true, 'role is require'],
         enum:['admin', 'organisation', 'donar', 'hospital']
     },
-    name:{
+    fullName:{
         type :String,
         require: function() {
             if(this.role === 'user' || this.role === 'admin'){

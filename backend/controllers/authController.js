@@ -5,7 +5,7 @@ export const register = async (req, res) => {
   const {
     email,
     password,
-    name,
+    fullName,
     role,
     organisationName,
     hospitalName,
@@ -29,7 +29,7 @@ export const register = async (req, res) => {
     const hashPassword = await bcrypt.hash(password, salt);
 
     const userData = new UserModel({
-      name,
+      fullName,
       email,
       password: hashPassword,
       role,
@@ -49,13 +49,14 @@ export const register = async (req, res) => {
     // const { password: pass, ...rest } = userData._doc;
 
 
-    const { password: pass, ...rest } = exisitingUser._doc;
+    const { password: pass, ...rest } = userData._doc;
 
 
 
     res.status(202).json({
       message: "User created Successfully",
-      user:rest
+      user:rest,
+      success:true
     });
   } catch (error) {
     console.log(error);
@@ -66,6 +67,13 @@ export const register = async (req, res) => {
     });
   }
 };
+
+
+
+
+
+
+
 
 export const login = async (req, res) => {
   const { email, password } = req.body;
@@ -86,12 +94,13 @@ export const login = async (req, res) => {
         })    
     }
 
+
     //Compare Password
-    const isMatch = bcrypt.compare(password, exisitingUser.password);
+    const isMatch = await bcrypt.compare(password, exisitingUser.password);
 
     if (!isMatch) {
       return res.status(404).send({
-        success: true,
+        success: false,
         message: "Invalid credentials",
       });
     }
@@ -104,6 +113,7 @@ export const login = async (req, res) => {
     res.status(200).json({
       message: "User Login Successfull",
       user: rest,
+      success:true
     });
   } catch (error) {
     console.log(error);
