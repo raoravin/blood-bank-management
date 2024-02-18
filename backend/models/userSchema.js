@@ -4,7 +4,7 @@ const userSchema = new mongoose.Schema({
     role: {
         type:String,
         require:[true, 'role is require'],
-        enum:['admin', 'organisation', 'user', 'hospital']
+        enum:['admin', 'organisation', 'donar', 'hospital']
     },
     name:{
         type :String,
@@ -51,10 +51,11 @@ const userSchema = new mongoose.Schema({
     },
     phone:{
         type:String,
-        required: [true, 'Phone No is required']
+        required: [true, 'Phone No is required'],
+        unique:true
     }
 }, {timestamps:true})
 
-const User = mongoose.model("Users", userSchema);
+const UserModel = mongoose.model("users", userSchema);
 
-export default User;
+export default UserModel;
