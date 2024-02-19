@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import { userLogin, userRegister } from "../redux/features/auth/authActions";
 import store from "../redux/store";
 
@@ -15,8 +16,7 @@ export const handleLogin = (e, email, password, role) => {
         // Handle successful login
         console.log("Login successful");
       } else if (userLogin.rejected.match(action)) {
-        // Handle login failure
-        console.error("Login failed:", action.payload.message);
+       toast.warning(action.payload.message)
       }
     });
   } catch (error) {

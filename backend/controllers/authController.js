@@ -76,7 +76,7 @@ export const register = async (req, res) => {
 
 
 export const login = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password,role } = req.body;
   try {
     const exisitingUser = await UserModel.findOne({ email: email });
     if (!exisitingUser) {
@@ -87,7 +87,7 @@ export const login = async (req, res) => {
     }
 
 
-    if(exisitingUser.role !== req.body.role) {
+    if(exisitingUser.role !== role) {
         return res.status(500).send({
             success: false,
             message: "role don't match",

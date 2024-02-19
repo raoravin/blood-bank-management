@@ -6,20 +6,21 @@ import session from "express-session";
 import MongoStore from 'connect-mongo'
 import usersRoutes from "./routes/authRoutes.js"
 import inventoryRoutes from "./routes/inventoryRoute.js";
+import cookieParser from "cookie-parser";
 
 
 
 //rest object
 const app = express();
-
+app.use(cookieParser())
 dotenv.config();
 const PORT = process.env.PORT || 8080; // Use the specified port or default to 8080
 
 app.use(session({
-  name: 'todo',
+  name: 'blood_bank',
   secret: process.env.SESS_SECRET,
   httpOnly: true,
-  secure: true,
+  // secure: true,                           
   maxAge: 1000 * 60 * 60 * 7,
   resave: false,//don't save session if unmodified
   saveUninitialized: false, // don't create session until something stored
@@ -29,10 +30,17 @@ app.use(session({
       ttl: 14 * 24 * 60 * 60 // = 14 days. Default
   }),
   cookie : {
-      maxAge: 1000* 60 * 60 *24 * 365
+      maxAge: 1000* 60 * 60 *24 * 365,
   },
 }));
 
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:3000');  // Replace with your frontend's origin
+  res.header('Access-Control-Allow-Credentials', true);
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  next();
+});
 
 app.use(
   cors({
