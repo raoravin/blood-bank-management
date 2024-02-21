@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import {Routes, Route, Navigate} from "react-router-dom"
+import {Routes, Route, Navigate, useNavigate, useLocation} from "react-router-dom"
 import Home from './pages/Home'
 import Register from './pages/auth/Register'
 import Login from './pages/auth/Login'
@@ -16,6 +16,8 @@ function App() {
   const [count, setCount] = useState(0)
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation()
 
 
   const authState = useSelector((state) => state.auth);
@@ -28,6 +30,18 @@ function App() {
   // Access user and userId from the authState
   const { user } = authState;
   const userId = user ? user._id : null;
+
+// Additional check for the register page
+useEffect(() => {
+  // Assuming you want to restrict access to the register page as well
+  const isRegisterPage = location.pathname === '/register';
+
+  if (!userId && !isRegisterPage) {
+    // If the user is not authenticated and is trying to access the register page, navigate to the login page
+    navigate('/login');
+  }
+}, [userId, navigate, location.pathname]);
+
 
   return (
     <>

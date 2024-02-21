@@ -6,9 +6,6 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
 
-const config = {
-  withCredentials: true, // Include this option to send credentials with the request
-};
 
 
 export const userLogin = createAsyncThunk(
@@ -56,6 +53,11 @@ export const userRegister = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
+
+      const config = {
+        withCredentials: true, // Include this option to send credentials with the request
+      };
+      
 
 
         const userData = {
@@ -122,3 +124,30 @@ export const getCurrentUser = createAsyncThunk(
     }
   }
 );
+
+export const logoutUser= createAsyncThunk(
+  "auth/logoutUser",
+  async(_, {dispatch, rejectWithValue} ) => {
+    try {
+      const config = {
+        withCredentials: true,
+      };
+
+       await axios.get("http://localhost:8080/api/v1/auth/logout", config)
+
+      return null;
+
+      
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        const errorMessage = error.response.data.message;
+        
+        return rejectWithValue({ message: errorMessage });
+      } else {
+        const errorMessage = error.message;
+        
+        return rejectWithValue({ message: errorMessage });
+      }
+    }
+  }
+)

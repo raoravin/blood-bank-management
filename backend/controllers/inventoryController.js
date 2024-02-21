@@ -3,20 +3,17 @@ import InventoryModel from "../models/inventorySchema.js";
 export const createInventory = async (req, res) => {
   try {
     const { email } = req.body;
-    console.log("not at all");
     const user = await UserModel.findOne({ email });
     if (!user) {
       throw new Error("User not Found");
     }
 
-    if (req.body.inventoryType === "in" && user.role !== "donar") {
-      throw new Error("not a donar account");
-    }
+    // if (req.body.inventoryType === "in" && user.role !== "donar") {
+    //   throw new Error("not a donar account");
+    // }
     if (req.body.inventoryType === "out" && user.role !== "hospital") {
       throw new Error("Not A hospital");
     }
-
-    console.log("hello");
 
     //save records
     const inventory = new InventoryModel(req.body);

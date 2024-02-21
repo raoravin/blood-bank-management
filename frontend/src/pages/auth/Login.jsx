@@ -11,7 +11,7 @@ const Login = () => {
 
   return (
    <>
-   {loading ? <Spinner /> : (
+  
      <div className="row g-0">
      <div className=" login-img col-md-8">
        <img src={bloodImage} alt="" />
@@ -20,7 +20,6 @@ const Login = () => {
        <Form formTitle={"LoginPage"} submitBtn={"Login"} formType={'login'} />
      </div>
    </div>
-   )}
    </>
   );
 };

@@ -162,12 +162,13 @@ export const getUser = async (req, res) => {
 export const logout = async (req, res) => {
     // res.clearCookie("todo");
     req.session.destroy((err) => {
+      res.clearCookie('blood_bank', { path: '/' });
       if (err) {
         return console.log(err);
       }
   
     res.status(200).json({
-      message: "User Logged Out Successfully"
+      message: "User Logout "
     })
   })
   };
