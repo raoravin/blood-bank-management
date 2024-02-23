@@ -8,7 +8,7 @@ const Modal = () => {
   const [inventoryType, setInventoryType] = useState("in");
   const [bloodGroup, setBloodGroup] = useState("");
   const [quantity, setQuantity] = useState("");
-  const [donarEmail, setDonarEmail] = useState("");
+  const [email, setEmail] = useState("");
   const {user} =useSelector((state) => state.auth)
 
   const handleModalSubmit = async() => {
@@ -23,8 +23,7 @@ const Modal = () => {
             inventoryType,
             bloodGroup,
             quantity,
-            donarEmail,
-            email:user?.email,
+            email,
             organisation:user?._id
         }
         
@@ -32,12 +31,12 @@ const Modal = () => {
 
         if(data?.success){
             toast.success("todo created") 
-            window.location.reload()
+            // window.location.reload()
          }
  
     } catch (error) {
         
-        console.log(error);
+        toast.error(error.response.data.message)
         // window.location.reload()
 
     }
@@ -49,7 +48,7 @@ const Modal = () => {
         id="staticBackdrop"
         data-bs-backdrop="static"
         data-bs-keyboard="false"
-        tabindex="-1"
+        tabIndex="-1"
         aria-labelledby="staticBackdropLabel"
         aria-hidden="true"
       >
@@ -101,7 +100,7 @@ const Modal = () => {
                 className="form-select mt-3"
                 aria-label="Large select example"
               >
-                <option selected>Select Blood Type</option>
+                <option defaultValue={'Select Blood Type'}>Select Blood Type</option>
                 <option value={"O+"}>O+</option>
                 <option value={"O-"}>O-</option>
                 <option value={"AB+"}>AB+</option>
@@ -112,12 +111,14 @@ const Modal = () => {
                 <option value={"B-"}>B-</option>
               </select>
               <InputType
-                    labelText={"Donar Email"} 
+                    labelText={
+                        inventoryType === "in" ? "Donar Email" : "Hospital email"
+                    } 
                     htmlfor={"donarEmail"}
                     inpuType={"email"}
                     name={"email"}
-                    value={donarEmail}
-                    onChange={(e) => setDonarEmail(e.target.value)}
+                    value={email}                    
+                    onChange={(e) => setEmail(e.target.value) }
                   />
                   <InputType
                     labelText={"Quantity"} 

@@ -5,7 +5,7 @@ import { getCurrentUser, logoutUser, userLogin, userRegister } from "./authActio
 const initialState = {
     loading:false,
     user:null,
-    error:null
+    error:null,
 }
 
 const authSlice = createSlice({
@@ -50,6 +50,9 @@ const authSlice = createSlice({
         })
         builder.addCase(getCurrentUser.rejected, (state, {payload}) => {
             state.loading = false;
+            state.user = null;
+
+            
         })
         //logout
         builder.addCase(logoutUser.pending, (state) => {

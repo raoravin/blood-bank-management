@@ -16,5 +16,11 @@ export const userMenu = [
         name:"Hospital",
         path:"/hospital",
         icon:"fa-solid fa-hospital"
+    },
+    {
+        id:"4",
+        name:"Organisation",
+        path:"/organisation",
+        icon:"fa-solid fa-hospital"
     }
 ]

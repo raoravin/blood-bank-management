@@ -1,60 +1,76 @@
-import { useEffect, useState } from 'react'
-import {Routes, Route, Navigate, useNavigate, useLocation} from "react-router-dom"
-import Home from './pages/Home'
-import Register from './pages/auth/Register'
-import Login from './pages/auth/Login'
-import 'react-toastify/dist/ReactToastify.css';
-import {ToastContainer} from 'react-toastify'
-import { useDispatch, useSelector } from 'react-redux';
-import { getCurrentUser } from './redux/features/auth/authActions'
-import ProtectedRoutes from './components/Routes/ProtectedRoute'
-import UnprotectedRoutes from "./components/Routes/UnprotectedRoute"
-
-
+import { useEffect, useState } from "react";
+import {
+  Routes,
+  Route,
+  Navigate,
+  useNavigate,
+  useLocation,
+} from "react-router-dom";
+import Home from "./pages/Home";
+import Register from "./pages/auth/Register";
+import Login from "./pages/auth/Login";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { getCurrentUser } from "./redux/features/auth/authActions";
+import ProtectedRoutes from "./components/Routes/ProtectedRoute";
+import UnprotectedRoutes from "./components/Routes/UnprotectedRoute";
+import Donar from "./pages/Dashboard/Donar";
+import LogOutHome from "./pages/LogOutHome";
+import Hospital from "./pages/Dashboard/Hospital";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const location = useLocation()
-
+  const location = useLocation();
 
   const authState = useSelector((state) => state.auth);
+  // Access user and userId from the authState
+  const { user } = authState;
+  const userId = user ? user._id : null;
 
   useEffect(() => {
     // Dispatch the thunk action when the component mounts
     dispatch(getCurrentUser());
   }, [dispatch]);
 
-  // Access user and userId from the authState
-  const { user } = authState;
-  const userId = user ? user._id : null;
+  // Additional check for the register page
+  // useEffect(() => {
+  //   // Check if the current location is the login page
+  //   const isLoginPage = location.pathname === '/login';
 
-// Additional check for the register page
-useEffect(() => {
-  // Assuming you want to restrict access to the register page as well
-  const isRegisterPage = location.pathname === '/register';
-
-  if (!userId && !isRegisterPage) {
-    // If the user is not authenticated and is trying to access the register page, navigate to the login page
-    navigate('/login');
-  }
-}, [userId, navigate, location.pathname]);
-
+  //   if (!userId && !isLoginPage) {
+  //     // If the user is not authenticated and not on the login page, navigate to the login page
+  //     navigate('/login');
+  //   }
+  // }, [userId, location.pathname, navigate],2000);
 
   return (
     <>
-    <ToastContainer />
-    <Routes>
-    <Route
-          path="/"
+      <ToastContainer />
+      <Routes>
+        <Route path="/" element={userId ? <Home /> : ""} />
+
+        <Route
+          path="/donar"
           element={
             <ProtectedRoutes loggedIn={userId ? true : false}>
-              <Home />
+              <Donar />
             </ProtectedRoutes>
           }
         />
+
+        <Route
+          path="/hospital"
+          element={
+            <ProtectedRoutes loggedIn={userId ? true : false}>
+              <Hospital />
+            </ProtectedRoutes>
+          }
+        />
+
         <Route
           path="/login"
           element={
@@ -71,9 +87,9 @@ useEffect(() => {
             </UnprotectedRoutes>
           }
         />
-    </Routes>
+      </Routes>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

@@ -42,8 +42,8 @@ export const register = async (req, res) => {
 
     await userData.save();
 
-    //storing id in session
-    // req.session.user = { user: userData._id };
+    // storing id in session
+    req.session.user = { user: userData._id };
 
     //Taken out password fron rest of the content fron frontend
     // const { password: pass, ...rest } = userData._doc;

@@ -112,6 +112,7 @@ export const getCurrentUser = createAsyncThunk(
       // You should return the data from the successful request as the fulfilled action payload
       return data;
     } catch (error) {
+      
       if (error.response && error.response.data.message) {
         const errorMessage = error.response.data.message;
         
