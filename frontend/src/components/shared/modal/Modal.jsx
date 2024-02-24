@@ -31,13 +31,13 @@ const Modal = () => {
 
         if(data?.success){
             toast.success("todo created") 
-            // window.location.reload()
+            window.location.reload()
          }
  
     } catch (error) {
         
         toast.error(error.response.data.message)
-        // window.location.reload()
+        window.location.reload()
 
     }
   }

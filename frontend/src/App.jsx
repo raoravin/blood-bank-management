@@ -18,6 +18,7 @@ import UnprotectedRoutes from "./components/Routes/UnprotectedRoute";
 import Donar from "./pages/Dashboard/Donar";
 import LogOutHome from "./pages/LogOutHome";
 import Hospital from "./pages/Dashboard/Hospital";
+import Organisation from "./pages/Dashboard/Organisation";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -67,6 +68,14 @@ function App() {
           element={
             <ProtectedRoutes loggedIn={userId ? true : false}>
               <Hospital />
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/organisation"
+          element={
+            <ProtectedRoutes loggedIn={userId ? true : false}>
+              <Organisation />
             </ProtectedRoutes>
           }
         />

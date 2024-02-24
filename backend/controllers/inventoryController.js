@@ -20,7 +20,11 @@ export const createInventory = async (req, res) => {
     if (req.body.inventoryType == "out") {
       const requestedBloodGroup = req.body.bloodGroup;
       const requestedQuantityOfBlood = req.body.quantity;
-      const organisation = mongoose.Types.ObjectId.isValid(req.body.organisation) ? new mongoose.Types.ObjectId(req.body.organisation) : null;
+      const organisation = mongoose.Types.ObjectId.isValid(
+        req.body.organisation
+      )
+        ? new mongoose.Types.ObjectId(req.body.organisation)
+        : null;
 
       const totalInOfRequestedBlood = await InventoryModel.aggregate([
         {
@@ -37,7 +41,6 @@ export const createInventory = async (req, res) => {
           },
         },
       ]);
-      
 
       const totalIn = totalInOfRequestedBlood[0]?.total || 0;
       //calculate OUT Blood Quanitity
@@ -116,18 +119,17 @@ export const getRecords = async (req, res) => {
   }
 };
 
-
-
-
-export const getDonar = async(req,res) => {
+export const getDonar = async (req, res) => {
   try {
-    const donarId = await InventoryModel.distinct("donar",{organisation:req.user})
+    const donarId = await InventoryModel.distinct("donar", {
+      organisation: req.user,
+    });
+    const donar = await UserModel.find({ _id: { $in: donarId } });
 
-    const donar = await UserModel.find({_id:{$in:donarId}})
     res.status(200).json({
-      success:true,
+      success: true,
       donar,
-    })
+    });
   } catch (error) {
     console.log(error);
     res.status(500).send({
@@ -138,22 +140,70 @@ export const getDonar = async(req,res) => {
   }
 };
 
-
-
-export const getHospital = async(req,res) => {
+export const getHospital = async (req, res) => {
   try {
-    const hospitalId = await InventoryModel.distinct("hospital",{organisation:req.user})
+    const hospitalId = await InventoryModel.distinct("hospital", {
+      organisation: req.user,
+    });
+    const hospital = await UserModel.find({ _id: { $in: hospitalId } }).select(
+      "-password"
+    );
 
-    const hospital = await UserModel.find({_id:{$in:hospitalId}})
     res.status(200).json({
-      success:true,
+      success: true,
       hospital,
-    })
+    });
   } catch (error) {
     console.log(error);
     res.status(500).send({
       success: false,
       message: "Error In getting Donar",
+      error,
+    });
+  }
+};
+
+export const getOrg = async (req, res) => {
+  try {
+    const orgId = await InventoryModel.distinct("organisation", {
+      donar: req.user,
+    });
+    const organisation = await UserModel.find({ _id: { $in: orgId } }).select(
+      "-password"
+    );
+
+    return res.status(200).json({
+      success: true,
+      organisation,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error In getting Org..",
+      error,
+    });
+  }
+};
+
+export const getOrgForHospital = async (req, res) => {
+  try {
+    const hospitalId = await InventoryModel.distinct("organisation", {
+      hospital: req.user,
+    });
+    const organisation = await UserModel.find({
+      _id: { $in: hospitalId },
+    }).select("-password");
+
+    return res.status(200).json({
+      success: true,
+      organisation,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error In getting Org..",
       error,
     });
   }

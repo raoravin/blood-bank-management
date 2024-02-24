@@ -22,16 +22,16 @@ const Header = () => {
             <ul className="navbar-nav flex-row">
               <li className="nav-item mx-3">
                 <p className="nav-link">
-                  <LuUserCircle2 /> Welcom{" "}
-                  {user?.fullName ||
+                  <span className="fs-3"><LuUserCircle2 /> </span> 
+                  <span>{user?.fullName ||
                     user?.hospitalName ||
-                    user?.organisationName}{" "}
+                    user?.organisationName}{" "}</span>
                   &nbsp;
-                  <span className="badge badge-secondary">{user?.role}</span>
+                  <span className="badge bg-secondary">{user?.role}</span>
                 </p>
               </li>
               <li className="nav-item mx-3">
-                <button onClick={logout} className="btn btn-danger">
+                <button onClick={logout} className="btn mt-3  btn-danger">
                   Logout
                 </button>
               </li>

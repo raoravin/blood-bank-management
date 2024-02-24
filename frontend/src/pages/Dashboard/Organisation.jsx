@@ -2,29 +2,43 @@ import React, { useEffect, useState } from "react";
 import Layout from "../../components/shared/layout/Layout";
 import axios from "axios";
 import moment from "moment";
+import { useSelector } from "react-redux";
 
-const Hospital = () => {
+const Organisation = () => {
   const [data, setData] = useState("");
-  const getHospital = async () => {
+  const { user } = useSelector((state) => state.auth);
+  const getOrg = async () => {
     try {
       const config = {
         withCredentials: true, // Include this option to send credentials with the request
       };
-      const { data } = await axios.get(
-        "http://localhost:8080/api/v1/inventory/get-hospital",
-        config
-      );
+      if (user?.role === "donar") {
+        const { data } = await axios.get(
+          "http://localhost:8080/api/v1/inventory/organisation",
+          config
+        );
+        if (data?.success) {
+          setData(data?.organisation);
+        }
+      }
+      if (user?.role === "hospital") {
+        const { data } = await axios.get(
+          "http://localhost:8080/api/v1/inventory/orgforhospital",
+          config
+        );
 
-      setData(data.hospital);
+        if (data?.success) {
+          setData(data?.organisation);
+        }
+      }
     } catch (error) {
       console.log(error);
     }
   };
 
   useEffect(() => {
-    getHospital();
-  }, []);
-
+    getOrg();
+  }, [user]);
   return (
     <Layout>
       {data ? (
@@ -48,12 +62,12 @@ const Hospital = () => {
               data.map((item) => (
                 <tr key={item._id} className="text-center">
                   <td className="ps-5 p-3">
-                    {item.hospitalName || item.organisationName + "(ORG)"}
+                    {item?.fullName || item?.organisationName + "(ORG)"}
                   </td>
-                  <td className="ps-5 p-3">{item.email}</td>
+                  <td className="ps-5 p-3">{item?.email}</td>
                   <td className="ps-5 p-3">{item?.phone}</td>
                   <td className="ps-5 p-3">
-                    {moment(item.createdAt).format("DD/MM/YY hh:mm A")}
+                    {moment(item?.createdAt).format("DD/MM/YY hh:mm A")}
                   </td>
                 </tr>
               ))}
@@ -66,4 +80,4 @@ const Hospital = () => {
   );
 };
 
-export default Hospital;
+export default Organisation;
