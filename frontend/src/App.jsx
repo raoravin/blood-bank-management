@@ -1,11 +1,5 @@
-import { useEffect, useState } from "react";
-import {
-  Routes,
-  Route,
-  Navigate,
-  useNavigate,
-  useLocation,
-} from "react-router-dom";
+import { Suspense, useEffect } from "react";
+import { Routes, Route, Navigate, useNavigate, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
 import Register from "./pages/auth/Register";
 import Login from "./pages/auth/Login";
@@ -13,60 +7,62 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { getCurrentUser } from "./redux/features/auth/authActions";
-import ProtectedRoutes from "./components/Routes/ProtectedRoute";
-import UnprotectedRoutes from "./components/Routes/UnprotectedRoute";
+import { ProtectedRoutes, UnprotectedRoutes } from "./components/RouteProtect/routeProtection";
 import Donar from "./pages/Dashboard/Donar";
-import LogOutHome from "./pages/LogOutHome";
 import Hospital from "./pages/Dashboard/Hospital";
 import Organisation from "./pages/Dashboard/Organisation";
+import Loader from "./components/loader";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const location = useLocation();
 
+  // Get user data from Redux state
   const authState = useSelector((state) => state.auth);
-  // Access user and userId from the authState
-  const { user } = authState;
-  const userId = user ? user._id : null;
+  const { user, loading } = authState;
+  const isAuthenticated = !!user;
 
+  // Fetch current user data when the component mounts
   useEffect(() => {
-    // Dispatch the thunk action when the component mounts
     dispatch(getCurrentUser());
   }, [dispatch]);
 
-  // Additional check for the register page
-  // useEffect(() => {
-  //   // Check if the current location is the login page
-  //   const isLoginPage = location.pathname === '/login';
+  // Redirect logic based on authentication status
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/');
+    }
+  }, [isAuthenticated, navigate]);
 
-  //   if (!userId && !isLoginPage) {
-  //     // If the user is not authenticated and not on the login page, navigate to the login page
-  //     navigate('/login');
-  //   }
-  // }, [userId, location.pathname, navigate],2000);
+  if (loading) {
+    // Display a loading spinner or component while user data is being fetched
+    return <Loader />;
+  }
 
   return (
     <>
       <ToastContainer />
       <Routes>
-        <Route path="/" element={userId ? <Home /> : ""} />
-
+        <Route
+          path="/"
+          element={
+            <ProtectedRoutes loggedIn={isAuthenticated}>
+              <Home />
+            </ProtectedRoutes>
+          }
+        />
         <Route
           path="/donar"
           element={
-            <ProtectedRoutes loggedIn={userId ? true : false}>
+            <ProtectedRoutes loggedIn={isAuthenticated}>
               <Donar />
             </ProtectedRoutes>
           }
         />
-
         <Route
           path="/hospital"
           element={
-            <ProtectedRoutes loggedIn={userId ? true : false}>
+            <ProtectedRoutes loggedIn={isAuthenticated}>
               <Hospital />
             </ProtectedRoutes>
           }
@@ -74,16 +70,15 @@ function App() {
         <Route
           path="/organisation"
           element={
-            <ProtectedRoutes loggedIn={userId ? true : false}>
+            <ProtectedRoutes loggedIn={isAuthenticated}>
               <Organisation />
             </ProtectedRoutes>
           }
         />
-
         <Route
           path="/login"
           element={
-            <UnprotectedRoutes loggedIn={userId ? true : false}>
+            <UnprotectedRoutes loggedIn={!isAuthenticated}>
               <Login />
             </UnprotectedRoutes>
           }
@@ -91,11 +86,13 @@ function App() {
         <Route
           path="/register"
           element={
-            <UnprotectedRoutes loggedIn={userId ? true : false}>
+            <UnprotectedRoutes loggedIn={!isAuthenticated}>
               <Register />
             </UnprotectedRoutes>
           }
         />
+        {/* Redirect to login page if no matching route */}
+        <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
     </>
   );
