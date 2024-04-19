@@ -34,12 +34,11 @@ const BloodGroupAnalytics = () => {
       const config = {
         withCredentials: true,
       };
-      const response = await axios.get(
+      const { data } = await axios.get(
         "http://localhost:8080/api/v1/analytics/blood-group-data",
         config
       );
-      setBloodGroupData(response.data.bloodGroupData);
-      console.log(response);
+      setBloodGroupData(data.bloodGroupData);
       setLoading(false);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -92,30 +91,48 @@ const BloodGroupAnalytics = () => {
     ],
   };
 
-  console.log("Data:", data);
-
   return (
     <>
       <Header />
-      <div className="card">
-        <h5 className="card-header">Featured</h5>
-        <div className="card-body">
-          <h5 className="card-title">Special title treatment</h5>
-          <p className="card-text">
-            With supporting text below as a natural lead-in to additional
-            content.
-          </p>
-        </div>
+      
+         <div className="flex flex-row flex-wrap w-full ms-28 mb-5">
+        {Array.isArray(bloodGroupData) ? (
+          bloodGroupData.map((records) => (
+            <div className="w-full max-w-sm m-3 p-3 bg-stone-500 border border-gray-200 rounded-lg shadow  dark:border-gray-700">
+              <div className="flex flex-col items-center ">
+                <div className="w-60 h-10 mt-2 bg-red-500 text-white mb-3 d-flex items-center justify-center shadow-sm">
+                  <h1>{records.bloodGroup}</h1>
+                </div>
+                {/* <p class="text-sm font-medium text-gray-900 truncate ">
+                  blood In : {records.totalIn} ml
+                </p>
+                <p class="text-sm font-medium text-gray-900 truncate ">
+                  blood In : {records.totalOut}
+                </p> */}
+                <div className="flex mt-4 md:mt-6">
+                  <a
+                    href="#"
+                    className="py-2 px-4 ms-2 text-sm font-medium text-white focus:outline-none bg-green-500 rounded-lg border border-gray-200  focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:text-gray-400 dark:border-gray-600 "
+                  >
+                    Blood Available : {records.availableBlood} ml
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))
+        ) : (
+          <p>No data available</p>
+        )}
       </div>
 
-      <div>
-        <h2>Blood Group Analytics</h2>
+      <div className=" flex flex-col items-center justify-center">
         {loading ? (
           <p>Loading data...</p>
         ) : (
           <Bar data={data} options={options} />
         )}
       </div>
+
     </>
   );
 };
