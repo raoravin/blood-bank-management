@@ -20,6 +20,7 @@ import LogOutHome from "./pages/LogOutHome";
 import Hospital from "./pages/Dashboard/Hospital";
 import Organisation from "./pages/Dashboard/Organisation";
 import Consumer from "./pages/Dashboard/Consumer";
+import Donation from "./pages/Donation";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -86,6 +87,14 @@ function App() {
           element={
             <ProtectedRoutes loggedIn={userId ? true : false}>
               <Consumer/>
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/donation"
+          element={
+            <ProtectedRoutes loggedIn={userId ? true : false}>
+              <Donation/>
             </ProtectedRoutes>
           }
         />

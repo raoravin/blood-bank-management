@@ -5,7 +5,7 @@ import moment from 'moment'
 import axios from 'axios'
 import { useSelector } from 'react-redux'
 
-const Consumer = () => {
+const Donation = () => {
     const [data,setData] = useState("");
 
     const {user} = useSelector(state => state.auth)
@@ -63,4 +63,4 @@ const Consumer = () => {
   )
 }
 
-export default Consumer
+export default Donation

@@ -7,8 +7,8 @@ const router = express.Router();
 
 
 router.post("/create-inventory", authorize, createInventory);
-router.post("/create-inventory", authorize, getInventoryHospital);
-router.post("/get-inventory-hospital", authorize, getRecords);
+router.post("/get-inventory-hospital",authorize,getInventoryHospital)
+router.get("/get-inventory", authorize, getRecords);
 router.get("/get-donar", authorize, getDonar);
 router.get("/get-hospital", authorize, getHospital);
 router.get("/organisation", authorize, getOrg);

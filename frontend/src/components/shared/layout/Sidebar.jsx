@@ -70,6 +70,18 @@ const Sidebar = () => {
               </div>
             </>
           )}
+          {(user?.role === "donar") && (
+            <>
+              <div
+                className={`menu-item ${
+                  location.pathname === "/donation" && "active"
+                }`}
+              >
+                <i className="fa-solid fa-building-ngo"></i>
+                <Link to="/donation">Donation</Link>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>
