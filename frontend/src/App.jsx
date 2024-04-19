@@ -21,6 +21,7 @@ import Hospital from "./pages/Dashboard/Hospital";
 import Organisation from "./pages/Dashboard/Organisation";
 import Consumer from "./pages/Dashboard/Consumer";
 import Donation from "./pages/Donation";
+import Analytics from "./pages/Dashboard/Analytics";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -95,6 +96,14 @@ function App() {
           element={
             <ProtectedRoutes loggedIn={userId ? true : false}>
               <Donation/>
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/analytics"
+          element={
+            <ProtectedRoutes loggedIn={userId ? true : false}>
+              <Analytics/>
             </ProtectedRoutes>
           }
         />

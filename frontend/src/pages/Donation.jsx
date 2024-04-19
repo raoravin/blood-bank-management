@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import Layout from "../../components/shared/layout/Layout"
+import Layout from "../components/shared/layout/Layout"
 import moment from 'moment'
 import axios from 'axios'
 import { useSelector } from 'react-redux'
@@ -17,8 +17,8 @@ const Donation = () => {
           };
           const {data} = await axios.post("http://localhost:8080/api/v1/inventory/get-inventory-hospital",{
             filters:{
-                inventoryType:'out',
-                hospital: user?._id,
+                inventoryType:'in',
+                donar: user?._id,
             }
           },config)
          setData(data.inventories)
