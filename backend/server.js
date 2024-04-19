@@ -6,6 +6,7 @@ import session from "express-session";
 import MongoStore from 'connect-mongo'
 import usersRoutes from "./routes/authRoutes.js"
 import inventoryRoutes from "./routes/inventoryRoute.js";
+import bloodGroupRoute from "./routes/analyticRoute.js"
 import cookieParser from "cookie-parser";
 
 
@@ -57,6 +58,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/v1/auth", usersRoutes)
 app.use("/api/v1/inventory", inventoryRoutes)
+app.use("/api/v1/analytics", bloodGroupRoute)
 
 
 const server = app.listen(PORT, () => {
