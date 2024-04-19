@@ -1,6 +1,12 @@
 import UserModel from "../models/userSchema.js";
 import InventoryModel from "../models/inventorySchema.js";
 import mongoose from "mongoose";
+
+
+
+
+
+
 export const createInventory = async (req, res) => {
   try {
     const { email } = req.body;
@@ -95,6 +101,9 @@ export const createInventory = async (req, res) => {
   }
 };
 
+
+
+
 export const getRecords = async (req, res) => {
   try {
     const inventories = await InventoryModel.find({
@@ -119,12 +128,16 @@ export const getRecords = async (req, res) => {
   }
 };
 
+
+
+
 export const getDonar = async (req, res) => {
   try {
     const donarId = await InventoryModel.distinct("donar", {
       organisation: req.user,
     });
     const donar = await UserModel.find({ _id: { $in: donarId } });
+    console.log(donarId);
 
     res.status(200).json({
       success: true,
@@ -140,14 +153,18 @@ export const getDonar = async (req, res) => {
   }
 };
 
+
+
 export const getHospital = async (req, res) => {
   try {
     const hospitalId = await InventoryModel.distinct("hospital", {
       organisation: req.user,
     });
+    // console.log(hospitalId);
     const hospital = await UserModel.find({ _id: { $in: hospitalId } }).select(
       "-password"
     );
+
 
     res.status(200).json({
       success: true,
@@ -186,6 +203,9 @@ export const getOrg = async (req, res) => {
   }
 };
 
+
+
+
 export const getOrgForHospital = async (req, res) => {
   try {
     const hospitalId = await InventoryModel.distinct("organisation", {
@@ -204,6 +224,34 @@ export const getOrgForHospital = async (req, res) => {
     res.status(500).send({
       success: false,
       message: "Error In getting Org..",
+      error,
+    });
+  }
+};
+
+
+
+
+
+export const getInventoryHospital = async (req, res) => {
+  try {
+    const inventories = await InventoryModel
+      .find(req.body.filters)
+      .populate("donar")
+      .populate("organisation")
+      .populate("hospital")
+      .sort({ createdAt: -1 });
+
+    return res.status(200).json({
+      success: true,
+      message: "get hospital consumer records ",
+      inventories,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error In getting consumer Inventory",
       error,
     });
   }

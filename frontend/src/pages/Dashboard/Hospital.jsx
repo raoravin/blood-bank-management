@@ -10,7 +10,7 @@ const Hospital = () => {
       const config = {
         withCredentials: true, // Include this option to send credentials with the request
       };
-      const { data } = await axios.get(
+      const {data }= await axios.get(
         "http://localhost:8080/api/v1/inventory/get-hospital",
         config
       );

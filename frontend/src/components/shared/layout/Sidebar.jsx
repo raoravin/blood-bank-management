@@ -58,6 +58,18 @@ const Sidebar = () => {
               </div>
             </>
           )}
+          {(user?.role === "hospital") && (
+            <>
+              <div
+                className={`menu-item ${
+                  location.pathname === "/consumer" && "active"
+                }`}
+              >
+                <i className="fa-solid fa-building-ngo"></i>
+                <Link to="/consumer">Consumer</Link>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>
