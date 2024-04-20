@@ -23,6 +23,9 @@ import Consumer from "./pages/Dashboard/Consumer";
 import Donation from "./pages/Donation";
 import Analytics from "./pages/Dashboard/Analytics";
 import Inventory from "./pages/Dashboard/Inventory";
+import DonarList from "./pages/admin/DonarList";
+import HospitalList from "./pages/admin/HospitalList";
+import OrgList from "./pages/admin/OrgList";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -39,24 +42,28 @@ function App() {
   useEffect(() => {
     // Dispatch the thunk action when the component mounts
     dispatch(getCurrentUser());
+    if(!userId && location.pathname === "/") {
+      navigate("/login")
+    }
   }, [dispatch]);
 
-  // Additional check for the register page
-  // useEffect(() => {
-  //   // Check if the current location is the login page
-  //   const isLoginPage = location.pathname === '/login';
 
-  //   if (!userId && !isLoginPage) {
-  //     // If the user is not authenticated and not on the login page, navigate to the login page
-  //     navigate('/login');
-  //   }
-  // }, [userId, location.pathname, navigate],2000);
+
 
   return (
     <>
       <ToastContainer />
       <Routes>
-        <Route path="/" element={userId ? <Home /> : ""} />
+
+      <Route
+          path="/"
+          element={
+            <ProtectedRoutes loggedIn={userId ? true : false}>
+              <Home />
+            </ProtectedRoutes>
+          }
+        />
+        
 
         <Route
           path="/donar"
@@ -114,6 +121,30 @@ function App() {
           element={
             <ProtectedRoutes loggedIn={userId ? true : false}>
               <Inventory />
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/donar-list"
+          element={
+            <ProtectedRoutes loggedIn={userId ? true : false}>
+              <DonarList />
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/hospital-list"
+          element={
+            <ProtectedRoutes loggedIn={userId ? true : false}>
+              <HospitalList />
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/organisation-list"
+          element={
+            <ProtectedRoutes loggedIn={userId ? true : false}>
+              <OrgList />
             </ProtectedRoutes>
           }
         />
