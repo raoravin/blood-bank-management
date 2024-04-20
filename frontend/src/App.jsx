@@ -22,6 +22,7 @@ import Organisation from "./pages/Dashboard/Organisation";
 import Consumer from "./pages/Dashboard/Consumer";
 import Donation from "./pages/Donation";
 import Analytics from "./pages/Dashboard/Analytics";
+import Inventory from "./pages/Dashboard/Inventory";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -87,7 +88,7 @@ function App() {
           path="/consumer"
           element={
             <ProtectedRoutes loggedIn={userId ? true : false}>
-              <Consumer/>
+              <Consumer />
             </ProtectedRoutes>
           }
         />
@@ -95,7 +96,7 @@ function App() {
           path="/donation"
           element={
             <ProtectedRoutes loggedIn={userId ? true : false}>
-              <Donation/>
+              <Donation />
             </ProtectedRoutes>
           }
         />
@@ -103,7 +104,16 @@ function App() {
           path="/analytics"
           element={
             <ProtectedRoutes loggedIn={userId ? true : false}>
-              <Analytics/>
+              <Analytics />
+            </ProtectedRoutes>
+          }
+        />
+
+        <Route
+          path="/inventory"
+          element={
+            <ProtectedRoutes loggedIn={userId ? true : false}>
+              <Inventory />
             </ProtectedRoutes>
           }
         />
