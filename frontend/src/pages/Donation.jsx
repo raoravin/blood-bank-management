@@ -22,6 +22,7 @@ const Donation = () => {
     isNaN(initialPage) ? 1 : initialPage
   );
   const todosPerPage = 8;
+  const [loading, setLoading] = useState(true); // State for loading status
   const [active, setActive] = useState("");
   const [search, setSearch] = useState("");
   const [searchIcon, setSearchIcon] = useState(true);
@@ -43,9 +44,11 @@ const Donation = () => {
         },
         config
       );
-      setTodo(data.inventories);
+      setTodo(data?.inventories);
+      setLoading(false); // Set loading to false when data is fetched
     } catch (error) {
       console.log(error);
+      setLoading(false); // Set loading to false when data is not fetched
     }
   };
 
@@ -93,7 +96,9 @@ const Donation = () => {
   const visibleTodos = filteredTodos.slice(startIndex, endIndex);
   return (
     <Layout>
-      {todo ? (
+      {loading ? (
+        <p className=" mt-14 ms-10">Loading data...</p>
+      ) :  (
         <>
           <div className=" w-full h-[42.5rem] relative ">
             <div className="p-6 dark:border-gray-700">
@@ -181,10 +186,10 @@ const Donation = () => {
                         <td class="px-6 py-4">{item?.inventoryType}</td>
 
                         <td class="px-6 py-4">{item?.quantity}</td>
-                        <td class="px-6 py-4">
+                        <td class="px-6 py-4 truncate">
                           {item?.organisation?.organisationName}
                         </td>
-                        <td class="px-6 py-4">
+                        <td class="px-6 py-4 truncate">
                           {moment(item?.createdAt).format(
                             "MMMM Do YYYY, h:mm:ss a"
                           )}
@@ -212,10 +217,10 @@ const Donation = () => {
             </div>
           </div>
         </>
-      ) : (
-        <p className="m-3">Loading...</p>
-      )}
+      ) 
+    }
     </Layout>
+
   );
 };
 
