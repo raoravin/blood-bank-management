@@ -10,6 +10,7 @@ import { RxCross2 } from "react-icons/rx";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { filterFunction } from "../../components/list/shared/filterFunction";
+import moment from 'moment';
 
 const Donar = () => {
   const { todo, setTodo } = useContext(todoContext);
@@ -40,6 +41,9 @@ const todosPerPage = 8;
   useEffect(() => {
     getDonars();
   },[])
+
+
+  console.log(todo);
 
   const handleSearchChange = (e) => {
     setSearch(e.target.value);
@@ -164,16 +168,16 @@ const visibleTodos = filteredTodos.slice(startIndex, endIndex);
                   <tr key={item._id} class=" bg-white border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
 
                 <td class="px-6 py-4">
-                    Silver
+                    {item?.fullName}
                 </td>
                 <td class="px-6 py-4">
-                    Laptop
+                    {item?.email}
                 </td>
                 <td class="px-6 py-4">
-                    $2999
+                    {item?.phone}
                 </td>
                 <td class="px-6 py-4">
-                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                {moment(item?.createdAt).format('MMMM Do YYYY, h:mm:ss a')}
                 </td>
             </tr>
                 ))
