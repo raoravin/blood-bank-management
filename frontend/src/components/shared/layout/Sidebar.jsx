@@ -26,7 +26,7 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="h-screen p-4 text-black">
+    <div className=" h-96 p-4 text-black">
       <h5 className="text-base flex gap-2 font-semibold text-gray-500 uppercase dark:text-gray-700">
         <span className="text-2xl">
           <AiOutlineAppstoreAdd />
