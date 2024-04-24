@@ -16,6 +16,8 @@ const Organisation = () => {
   const { todo, setTodo } = useContext(todoContext);
   const [filteredTodos, setFilteredTodos] = useState([]);
   const [selectedFilter, setSelectedFilter] = useState("newest");
+  const [loading, setLoading] = useState(true)
+
   // Ensure currentPage is initialized with a valid number
 const initialPage = parseInt(localStorage.getItem("currentPage"), 10);
 const [currentPage, setCurrentPage] = useState(isNaN(initialPage) ? 1 : initialPage);
@@ -27,6 +29,7 @@ const todosPerPage = 8;
   const [noTodosFound, setNoTodosFound] = useState(false);
   
 
+  console.log(todo);
 
 
   const getOrg = async () => {
@@ -41,6 +44,7 @@ const todosPerPage = 8;
         );
         if (data?.success) {
           setTodo(data?.organisation);
+          setLoading(false)
         }
       }
       if (user?.role === "hospital") {
@@ -51,10 +55,12 @@ const todosPerPage = 8;
 
         if (data?.success) {
           setTodo(data?.organisation);
+          setLoading(false)
         }
       }
     } catch (error) {
       console.log(error);
+      setLoading(false)
     }
   };
 
@@ -95,8 +101,9 @@ if (filteredTodos && filteredTodos.length > 0) {
 const visibleTodos = filteredTodos.slice(startIndex, endIndex);
   return (
     <Layout>
-        {
-      todo ? 
+       {loading ? (
+        <p className=" mt-14 ms-10">Loading data...</p>
+      ) : 
       (
         <>
       <div className=" w-full h-[42.5rem] relative ">
@@ -185,17 +192,17 @@ const visibleTodos = filteredTodos.slice(startIndex, endIndex);
                   // </tr>
                   <tr key={item._id} class=" bg-white border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
 
-                <td class="px-6 py-4">
+                <td class="px-6 py-4 truncate">
                     {item?.organisationName}
                 </td>
-                <td class="px-6 py-4">
+                <td class="px-6 py-4 truncate">
                     {item?.email}
                 </td>
 
-                <td class="px-6 py-4">
+                <td class="px-6 py-4 truncate">
                     {item?.phone}
                 </td>
-                <td class="px-6 py-4">
+                <td class="px-6 py-4 truncate">
                 {moment(item?.createdAt).format('MMMM Do YYYY, h:mm:ss a')}
                 </td>
             </tr>
@@ -221,8 +228,7 @@ const visibleTodos = filteredTodos.slice(startIndex, endIndex);
         </div>
       </div>
     </>
-      ) :
-    (<p className='m-3'>Loading...</p>)
+      ) 
      }
     </Layout>
   )
