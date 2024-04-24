@@ -31,14 +31,12 @@ const Modal = () => {
 
         if(data?.success){
             toast.success("todo created") 
-            window.location.reload()
+
          }
  
     } catch (error) {
         
         toast.error(error.response.data.message)
-        window.location.reload()
-
     }
   }
   return (
@@ -49,7 +47,7 @@ const Modal = () => {
         data-bs-backdrop="static"
         data-bs-keyboard="false"
         tabIndex="-1"
-        aria-labelledby="staticBackdropLabel"
+        // aria-labelledby="staticBackdropLabel"
         aria-hidden="true"
       >
         <div className="modal-dialog">
