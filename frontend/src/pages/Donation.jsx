@@ -17,7 +17,7 @@ const Donation = () => {
   const [filteredTodos, setFilteredTodos] = useState([]);
   const [selectedFilter, setSelectedFilter] = useState("newest");
   // Ensure currentPage is initialized with a valid number
-  const initialPage = parseInt(localStorage.getItem("currentPage"), 10);
+  const initialPage = parseInt(localStorage.getItem("currentPage_donation"), 10);
   const [currentPage, setCurrentPage] = useState(
     isNaN(initialPage) ? 1 : initialPage
   );
@@ -81,7 +81,7 @@ const Donation = () => {
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
-    localStorage.setItem("currentPage", page.toString());
+    localStorage.setItem("currentPage_donation", page.toString());
   };
 
   const totalPages = Math.ceil(filteredTodos.length / todosPerPage);
@@ -98,7 +98,7 @@ const Donation = () => {
     <Layout>
       {loading ? (
         <p className=" mt-14 ms-10">Loading data...</p>
-      ) :  (
+      ) : (
         <>
           <div className=" w-full h-[42.5rem] relative ">
             <div className="p-6 dark:border-gray-700">
@@ -203,24 +203,22 @@ const Donation = () => {
                   )}
                 </tbody>
               </table>
-            </div>
-            <div className="absolute left-1/2 right-1/2 bottom-6">
-              {Array.isArray(visibleTodos) && visibleTodos.length > 0 ? (
-                <Pagination
-                  totalPages={totalPages}
-                  currentPage={currentPage}
-                  handlePageChange={handlePageChange}
-                />
-              ) : (
-                ""
-              )}
+              <div className=" absolute left-1/2 right-1/2">
+                {totalPages > 1 ? (
+                  <Pagination
+                    totalPages={totalPages}
+                    currentPage={currentPage}
+                    handlePageChange={handlePageChange}
+                  />
+                ) : (
+                  ""
+                )}
+              </div>
             </div>
           </div>
         </>
-      ) 
-    }
+      )}
     </Layout>
-
   );
 };
 

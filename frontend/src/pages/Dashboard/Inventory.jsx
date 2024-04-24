@@ -17,14 +17,17 @@ const Inventory = () => {
   const [filteredTodos, setFilteredTodos] = useState([]);
   const [selectedFilter, setSelectedFilter] = useState("newest");
   // Ensure currentPage is initialized with a valid number
-const initialPage = parseInt(localStorage.getItem("currentPage"), 10);
-const [currentPage, setCurrentPage] = useState(isNaN(initialPage) ? 1 : initialPage);
+  const initialPage = parseInt(
+    localStorage.getItem("currentPage_inventory"),
+    10
+  );const [currentPage, setCurrentPage] = useState(isNaN(initialPage) ? 1 : initialPage);
 const todosPerPage = 8;
   const [active, setActive] = useState("");
   const [search, setSearch] = useState("");
   const [searchIcon, setSearchIcon] = useState(true);
   const { user } = useSelector((state) => state.auth);
   const [noTodosFound, setNoTodosFound] = useState(false);
+  const [loading, setLoading] = useState(true);
   
 
   const getBloodRecord= async() => {
@@ -35,10 +38,12 @@ const todosPerPage = 8;
       const {data} = await axios.get("http://localhost:8080/api/v1/inventory/get-inventory",config)
       if(data?.success) {
         setTodo(data?.inventories)
-        // console.log(data);
+        setLoading(false
+        )
       }
     } catch (error) {
       console.log(error);
+      setLoading(false)
     }
   }
 
@@ -65,7 +70,7 @@ const todosPerPage = 8;
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
-    localStorage.setItem("currentPage", page.toString());
+    localStorage.setItem("currentPage_inventory", page.toString());
   };
 
   const totalPages = Math.ceil(filteredTodos.length / todosPerPage);
@@ -80,8 +85,9 @@ if (filteredTodos && filteredTodos.length > 0) {
 const visibleTodos = filteredTodos.slice(startIndex, endIndex);
   return (
     <Layout>
-        {
-      todo ? 
+        {loading ? (
+        <p className=" mt-14 ms-10">Loading data...</p>
+      ) : 
       (
         <>
       <div className=" w-full h-[42.5rem] relative ">
@@ -170,17 +176,17 @@ const visibleTodos = filteredTodos.slice(startIndex, endIndex);
                   // </tr>
                   <tr key={item._id} class=" bg-white border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
 
-                <td class="px-6 py-4">
+                <td class="px-6 py-4 truncate">
                     {item?.bloodGroup}
                 </td>
-                <td class="px-6 py-4">
+                <td class="px-6 py-4 truncate">
                     {item?.inventoryType}
                 </td>
 
-                <td class="px-6 py-4">
+                <td class="px-6 py-4 truncate">
                     {item?.quantity}
                 </td>
-                <td class="px-6 py-4">
+                <td class="px-6 py-4 truncate">
                 {moment(item?.createdAt).format('MMMM Do YYYY, h:mm:ss a')}
                 </td>
             </tr>
@@ -192,22 +198,22 @@ const visibleTodos = filteredTodos.slice(startIndex, endIndex);
               )}
             </tbody>
           </table>
+          <div className="absolute left-1/2 right-1/2">
+              {totalPages > 1 ? (
+                <Pagination
+                  totalPages={totalPages}
+                  currentPage={currentPage}
+                  handlePageChange={handlePageChange}
+                />
+              ) : (
+                ""
+              )}
+            </div>
         </div>
-        <div className="absolute left-1/2 right-1/2 bottom-6">
-          {Array.isArray(visibleTodos) && visibleTodos.length > 0 ? (
-            <Pagination
-              totalPages={totalPages}
-              currentPage={currentPage}
-              handlePageChange={handlePageChange}
-            />
-          ) : (
-            ""
-          )}
-        </div>
+        
       </div>
     </>
-      ) :
-    (<p className='m-3'>Loading...</p>)
+      )
      }
     </Layout>
   )
