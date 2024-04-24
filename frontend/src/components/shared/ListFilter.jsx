@@ -13,7 +13,7 @@ const ListFilter = ({ selectedFilter, handleFilterChange,search}) => {
         <select
           value={selectedFilter}
           onChange={handleFilterChange}
-          className=" border-8 border-gray-700 hover:bg-grey-800 dark:hover:bg-grey-700  font-medium rounded-lg text-base px-5 py-1 text-center outline-none inline-flex items-center"
+          className=" border-2 py-2 font-medium rounded-lg text-base px-4 text-center outline-none inline-flex items-center"
         >
           <option value="newest">Newest</option>
           <option value="1week">1 Week</option>

@@ -77,9 +77,9 @@ const visibleTodos = filteredTodos.slice(startIndex, endIndex);
       todo ? 
       (
         <>
-      <div className=" w-full h-[42.5rem] relative dark:border-gray-700 ">
+      <div className=" w-full h-[42.5rem] relative ">
         <div className="p-6 dark:border-gray-700">
-          <div className="flex  justify-between">
+          <div className=" m-auto w-4/5 flex mt-4 justify-between">
           <div className=''>
           <TodoFilter
               selectedFilter={selectedFilter}
@@ -91,7 +91,7 @@ const visibleTodos = filteredTodos.slice(startIndex, endIndex);
               <input
                 type="text"
                 id="table-search"
-                className="block outline-none p-2 ps-10 text-sm border-b text-gray-900 w-80 rounded-e-none  focus:ring-blue-500 focus:border-blue-500 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="block outline-none p-2 ps-10 text-sm border-b text-gray-900 w-70 rounded-e-none  focus:ring-blue-500 focus:border-blue-500 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Search for items"
                 value={search}
                 onChange={handleSearchChange}
