@@ -27,6 +27,7 @@ import DonarList from "./pages/admin/DonarList";
 import HospitalList from "./pages/admin/HospitalList";
 import OrgList from "./pages/admin/OrgList";
 import { ToastToggle } from "flowbite-react";
+import Contact from "./pages/Contact";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -43,28 +44,32 @@ function App() {
   useEffect(() => {
     // Dispatch the thunk action when the component mounts
     dispatch(getCurrentUser());
-    if(!userId && location.pathname === "/") {
-      navigate("/login")
+    if (!userId && location.pathname === "/") {
+      navigate("/login");
     }
   }, [dispatch]);
-
-
-
 
   return (
     <>
       <ToastContainer />
       <Routes>
-
-      <Route
-          path="/"
+        <Route
+          path="/home"
           element={
             <ProtectedRoutes loggedIn={userId ? true : false}>
               <Home />
             </ProtectedRoutes>
           }
         />
-        
+
+        <Route
+          path="/contact"
+          element={
+            <ProtectedRoutes loggedIn={userId ? true : false}>
+              <Contact />
+            </ProtectedRoutes>
+          }
+        />
 
         <Route
           path="/donar"

@@ -38,8 +38,8 @@ const Sidebar = () => {
         <ul className="space-y-2 font-medium">
         <li>
                 <Link
-                  to="/"
-                  className={`${location.pathname === "/" ? "bg-gray-700 text-white" : "hover:bg-gray-100 group"} flex items-center p-2 text-gray-900 rounded-lg `}
+                  to="/home"
+                  className={`${location.pathname === "/home" ? "bg-gray-700 text-white" : "hover:bg-gray-100 group"} flex items-center p-2 text-gray-900 rounded-lg `}
                 >
                   <span className="text-xl"><MdOutlineHomeWork /></span>
                   <span className="ms-3">Home</span>

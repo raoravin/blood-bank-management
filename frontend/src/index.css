@@ -9,6 +9,17 @@
     
 }
 
+/* Hide scrollbar while maintaining functionality */
+body {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer and Edge */
+}
+
+/* Hide scrollbar in Chrome, Safari, and Opera */
+::-webkit-scrollbar {
+  display: none;
+}
+
 .login-img img {
   width: 1100px;
   height: 100vh;
