@@ -1,9 +1,12 @@
 import React from "react";
+import Header from "../components/shared/layout/Header";
 
 const Contact = () => {
   return (
-    <div>
-      &lt;&gt;
+    <>
+    <Header />
+    <div class="bg-gray-800 h-screen text-gray-100 px-8 py-12">
+
       <div className="text-center w-full">
         <svg
           className="text-gray-100 h-8 mx-auto"
@@ -1053,6 +1056,7 @@ const Contact = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 
