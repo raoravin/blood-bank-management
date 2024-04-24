@@ -77,22 +77,21 @@ const visibleTodos = filteredTodos.slice(startIndex, endIndex);
       todo ? 
       (
         <>
-      <div className="bg-red-700 w-auto h-[42.5rem] relative dark:bg-gray-800 dark:border-gray-700 shadow-md sm:rounded-lg">
-        <div className="p-6 dark:bg-gray-800 dark:border-gray-700">
-          <div className="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4">
-            <TodoFilter
+      <div className=" w-full h-[42.5rem] relative dark:border-gray-700 ">
+        <div className="p-6 dark:border-gray-700">
+          <div className="flex  justify-between">
+          <div className=''>
+          <TodoFilter
               selectedFilter={selectedFilter}
               handleFilterChange={handleFilterChange}
               search={search}
             />
-            <label htmlFor="table-search" className="sr-only">
-              Search
-            </label>
+          </div>
             <div className="flex">
               <input
                 type="text"
                 id="table-search"
-                className="block outline-none p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 rounded-e-none bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="block outline-none p-2 ps-10 text-sm border-b text-gray-900 w-80 rounded-e-none  focus:ring-blue-500 focus:border-blue-500 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Search for items"
                 value={search}
                 onChange={handleSearchChange}
@@ -102,7 +101,7 @@ const visibleTodos = filteredTodos.slice(startIndex, endIndex);
                 }}
               />
               <button
-                className={`text-black rounded-s-none rounded-lg bg-slate-300 p-3 ${
+                className={`text-black p-2.5 rounded-s-none rounded-lg bg-slate-300 px-3 ${
                   searchIcon ? "hidden" : ""
                 }`}
                 disabled={searchIcon ? true : false}
@@ -116,25 +115,26 @@ const visibleTodos = filteredTodos.slice(startIndex, endIndex);
               </button>
             </div>
           </div>
-          <table className="w-full mt-5 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-              <tr className=" bg-slate-700">
-                <th scope="col" className="p-4">
-                  <div className="flex items-center">
-                    <label htmlFor="checkbox-all-search" className="sr-only">
-                      checkbox
-                    </label>
-                  </div>
+          <table className=" m-auto w-4/5 mt-5 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+             <thead class="text-xs text-white uppercase bg-gray-50 dark:bg-gray-600 dark:text-gray-400">
+
+            <tr className="">
+                
+                <th scope="col" class="px-6 py-3">
+                    Name
                 </th>
-                <th scope="col" className="px-6 py-4 w-1/5 text-sm">
-                  Title
+                <th scope="col" class="px-6 py-3">
+                    Email
                 </th>
-                <th scope="col" className="px-6 py-4 w-2/5 text-sm">
-                  Description
+                <th scope="col" class="px-6 py-3">
+                    Phone
                 </th>
-              </tr>
-            </thead>
-            <tbody>
+                <th scope="col" class="px-6 py-3">
+                    Date
+                </th>
+            </tr>
+        </thead>
+            <tbody className=''>
               {noTodosFound ? (
                 <tr>
                   <td colSpan="6" className="text-center mt-2">
@@ -154,13 +154,28 @@ const visibleTodos = filteredTodos.slice(startIndex, endIndex);
                 </tr>
               ) : Array.isArray(visibleTodos) && visibleTodos.length > 0 ? (
                 visibleTodos.map((item) => (
-                  <tr key={item._id}>
-                    <td className="p-4">
-                      <input type="checkbox" />
-                    </td>
-                    <td className="px-6 py-4">{item.name}</td>
-                    <td className="px-6 py-4">{item.email}</td>
-                  </tr>
+                  // <tr key={item._id}>
+                  //   <td className="p-4">
+                  //     <input type="checkbox" />
+                  //   </td>
+                  //   <td className="px-6 py-4">{item.name}</td>
+                  //   <td className="px-6 py-4">{item.email}</td>
+                  // </tr>
+                  <tr key={item._id} class=" bg-white border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+
+                <td class="px-6 py-4">
+                    Silver
+                </td>
+                <td class="px-6 py-4">
+                    Laptop
+                </td>
+                <td class="px-6 py-4">
+                    $2999
+                </td>
+                <td class="px-6 py-4">
+                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                </td>
+            </tr>
                 ))
               ) : (
                 <tr>

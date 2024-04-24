@@ -11,7 +11,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { filterFunction } from "../../components/list/shared/filterFunction";
 
-const Donar = () => {
+const Hospital = () => {
   const { todo, setTodo } = useContext(todoContext);
   const [filteredTodos, setFilteredTodos] = useState([]);
   const [selectedFilter, setSelectedFilter] = useState("newest");
@@ -194,4 +194,4 @@ const visibleTodos = filteredTodos.slice(startIndex, endIndex);
   )
 }
 
-export default Donar
+export default Hospital

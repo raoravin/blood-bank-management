@@ -7,11 +7,11 @@ const Layout = ({children}) => {
   return (
     <>
     <div className='header'><Header /></div>
-    <div className=" d-flex g-0">
-      <div className="col-md-3">
+    <div className=" d-flex w-screen g-0">
+      <div className="col-md-3 w-72">
         <Sidebar />
       </div>
-      <div className="content">{children}</div>
+      <div className="content w-3/4">{children}</div>
     </div>
     </>
   )

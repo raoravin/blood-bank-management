@@ -11,7 +11,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { filterFunction } from "../../components/list/shared/filterFunction";
 
-const Donar = () => {
+const Inventory = () => {
   const { todo, setTodo } = useContext(todoContext);
   const [filteredTodos, setFilteredTodos] = useState([]);
   const [selectedFilter, setSelectedFilter] = useState("newest");
@@ -33,7 +33,7 @@ const todosPerPage = 8;
       };
       const {data} = await axios.get("http://localhost:8080/api/v1/inventory/get-inventory",config)
       if(data?.success) {
-        setData(data?.inventories)
+        setTodo(data?.inventories)
         // console.log(data);
       }
     } catch (error) {
@@ -81,8 +81,8 @@ const visibleTodos = filteredTodos.slice(startIndex, endIndex);
       todo ? 
       (
         <>
-      <div className="bg-red-700 w-auto h-[42.5rem] relative dark:bg-gray-800 dark:border-gray-700 shadow-md sm:rounded-lg">
-        <div className="p-6 dark:bg-gray-800 dark:border-gray-700">
+      <div className="bg-red-700 w-auto h-[42.5rem] relative  dark:border-gray-700 shadow-md sm:rounded-lg">
+        <div className="p-6  dark:border-gray-700">
           <div className="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4">
             <TodoFilter
               selectedFilter={selectedFilter}
@@ -96,7 +96,7 @@ const visibleTodos = filteredTodos.slice(startIndex, endIndex);
               <input
                 type="text"
                 id="table-search"
-                className="block outline-none p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 rounded-e-none bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="block outline-none p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 rounded-e-none bg-gray-50 focus:ring-blue-500 focus:border-blue-500  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Search for items"
                 value={search}
                 onChange={handleSearchChange}
@@ -121,8 +121,8 @@ const visibleTodos = filteredTodos.slice(startIndex, endIndex);
             </div>
           </div>
           <table className="w-full mt-5 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-              <tr className=" bg-slate-700">
+            <thead className="text-xs text-gray-700 uppercase bg-gray-50  dark:text-gray-400">
+              <tr className=" ">
                 <th scope="col" className="p-4">
                   <div className="flex items-center">
                     <label htmlFor="checkbox-all-search" className="sr-only">
@@ -194,4 +194,4 @@ const visibleTodos = filteredTodos.slice(startIndex, endIndex);
   )
 }
 
-export default Donar
+export default Inventory

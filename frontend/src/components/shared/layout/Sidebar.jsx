@@ -178,7 +178,7 @@ const Sidebar = () => {
               <li>
                 <a
                   className={`${
-                    location.pathname === "/Hospital"
+                    location.pathname === "/hospital"
                       ? "bg-gray-700 text-white"
                       : ""
                   } flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 group`}
@@ -343,11 +343,7 @@ const Sidebar = () => {
           <li>
             <a
               onClick={logout}
-              className={`${
-                location.pathname === "/inventory"
-                  ? "bg-gray-700 text-white"
-                  : ""
-              } flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 group`}
+              className={`flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 group`}
             >
               <span className=" text-xl"><RiLogoutBoxLine /></span>
               <span className="flex-1 ms-3 whitespace-nowrap">Sign Out</span>
