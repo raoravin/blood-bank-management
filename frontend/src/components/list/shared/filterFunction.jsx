@@ -55,7 +55,6 @@ export const filterFunction = (
         )
       : todo, // Return the original todos array if search is not defined
     };
-    console.log(todo);
   
     const filteredTodo = timeFilters[selectedFilter] || [];
     if (filteredTodo.length === 0) {

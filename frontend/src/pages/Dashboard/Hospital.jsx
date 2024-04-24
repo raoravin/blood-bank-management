@@ -42,9 +42,6 @@ const todosPerPage = 8;
     }
   };
 
-
-  console.log(todo);
-
   useEffect(() => {
     getHospital();
   }, []);

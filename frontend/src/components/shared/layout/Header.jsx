@@ -71,7 +71,7 @@ const Header = () => {
                 <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span>
             </a>
             
-            <div class="hidden justify-between items-center w-full lg:flex lg:w-auto " id="mobile-menu-2">
+            <div class="hidden justify-center items-center w-full lg:flex lg:w-auto " id="mobile-menu-2">
                 <ul class="flex flex-col mt- font-medium lg:flex-row lg:space-x-8 lg:mt-0">
                     <li>
                         <a href="#" class="block py-2 pr-4 pl-3 text-white rounded bg-primary-700 lg:bg-transparent lg:text-primary-700 lg:p-0 dark:text-white" aria-current="page">Home</a>
@@ -91,24 +91,24 @@ const Header = () => {
                     <li>
                         <a href="#" class="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Contact</a>
                     </li>
-                    <li className="">
+                    {/* <li className="">
                 <p className=" text-white flex">
                   <span className="fs-3">
                     <LuUserCircle2 />{" "}
-                  </span>
+                  </span> */}
                   {/* <span>
                     {
                     // user?.fullName ||
                       // user?.hospitalName ||
                       // user?.organisationName}{" "}
                   </span> */}
-                  &nbsp;
+                  {/* &nbsp;
                   <span className="badge bg-secondary">{user?.role}</span>
                 </p>
-              </li>
+              </li> */}
                 </ul>
             </div>
-            <div className=" text-white">
+            {/* <div className=" text-white">
             {location.pathname === "/" ||
               location.pathname === "/donar" ||
               location.pathname === "/hospital" ||
@@ -127,7 +127,7 @@ const Header = () => {
                   </Link>
 
               )}
-            </div>
+            </div> */}
            
         </div>
     </nav>

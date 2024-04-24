@@ -43,8 +43,6 @@ const todosPerPage = 8;
   },[])
 
 
-  console.log(todo);
-
   const handleSearchChange = (e) => {
     setSearch(e.target.value);
   };

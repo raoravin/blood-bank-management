@@ -1,12 +1,10 @@
 import React from 'react'
-import Layout from '../components/shared/layout/Layout'
 
 const Home = () => {
   return (
-    <Layout>
-      <div>
-
-  {/* <section className="w-full px-8 text-gray-700 bg-white">
+   <div>
+  &lt;&gt;
+  <section className="w-full px-8 text-gray-700 bg-white">
     <div className="container flex flex-col flex-wrap items-center justify-between py-5 mx-auto md:flex-row max-w-7xl">
       <div className="relative flex flex-col md:flex-row">
         <a href="#_" className="flex items-center mb-5 font-medium text-gray-900 lg:w-auto lg:items-center lg:justify-center md:mb-0">
@@ -28,7 +26,7 @@ const Home = () => {
         </a>
       </div>
     </div>
-  </section> */}
+  </section>
   <section className="px-2 py-32 bg-white md:px-0">
     <div className="container items-center max-w-6xl px-8 mx-auto xl:px-5">
       <div className="flex flex-wrap items-center sm:-mx-3">
@@ -336,7 +334,7 @@ const Home = () => {
     </div>
   </section>
 </div>
-    </Layout>
+
   )
 }
 
