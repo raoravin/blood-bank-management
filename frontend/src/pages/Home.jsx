@@ -15,9 +15,9 @@ const Home = () => {
                 <div className="w-full pb-6 space-y-6 sm:max-w-md lg:max-w-lg md:space-y-4 lg:space-y-8 xl:space-y-9 sm:pr-5 lg:pr-0 md:pb-0">
                   <h1 className="text-xl font-extrabold tracking-tight text-gray-900 sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl">
                     <span className="block xl:inline">
-                      Hello Welcome <br /> Blood
+                      Hello Welcome
                     </span>
-                    <span className="block text-indigo-600 xl:inline">
+                    <span className="block text-center text-indigo-600 xl:inline">
                       {" "}
                       {user?.role}
                     </span>
