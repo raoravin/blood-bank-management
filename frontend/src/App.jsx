@@ -16,7 +16,6 @@ import { getCurrentUser } from "./redux/features/auth/authActions";
 import ProtectedRoutes from "./components/Routes/ProtectedRoute";
 import UnprotectedRoutes from "./components/Routes/UnprotectedRoute";
 import Donar from "./pages/Dashboard/Donar";
-import LogOutHome from "./pages/LogOutHome";
 import Hospital from "./pages/Dashboard/Hospital";
 import Organisation from "./pages/Dashboard/Organisation";
 import Consumer from "./pages/Dashboard/Consumer";
@@ -44,7 +43,7 @@ function App() {
   useEffect(() => {
     // Dispatch the thunk action when the component mounts
     dispatch(getCurrentUser());
-    if (!userId && location.pathname === "/") {
+    if (!userId && location.pathname === "/" ) {
       navigate("/login");
     }
   }, [dispatch]);
@@ -171,7 +170,9 @@ function App() {
             </UnprotectedRoutes>
           }
         />
+        
       </Routes>
+      
     </>
   );
 }
