@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import InputType from "../form/InputType";
 import { toast } from "react-toastify";
 import axios from "axios";
@@ -10,6 +10,8 @@ const Modal = () => {
   const [quantity, setQuantity] = useState("");
   const [email, setEmail] = useState("");
   const {user} =useSelector((state) => state.auth)
+  // Ref to access the modal
+  const modalRef = useRef(null);
 
   const handleModalSubmit = async() => {
     try {
@@ -30,12 +32,13 @@ const Modal = () => {
         const {data} = await axios.post("http://localhost:8080/api/v1/inventory/create-inventory",inventoryData,config)
 
         if(data?.success){
-            toast.success("todo created") 
+            toast.success("Inventory created") 
+            // Hide the modal using JavaScript
+      modalRef.current?.hide(); // Optional chaining for safety
 
          }
  
     } catch (error) {
-        
         toast.error(error.response.data.message)
     }
   }
@@ -49,6 +52,7 @@ const Modal = () => {
         tabIndex="-1"
         // aria-labelledby="staticBackdropLabel"
         aria-hidden="true"
+        ref={modalRef} // Set the ref to access the modal
       >
         <div className="modal-dialog">
           <div className="modal-content">
@@ -135,7 +139,7 @@ const Modal = () => {
                 >
                   Close
                 </button>
-                <button onClick={handleModalSubmit} type="button" className="btn btn-primary">
+                <button onClick={handleModalSubmit} type="button" className="btn btn-primary" data-bs-dismiss="modal">
                   Submit
                 </button>
               </div>

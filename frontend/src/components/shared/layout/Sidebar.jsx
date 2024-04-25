@@ -194,14 +194,13 @@ const Sidebar = () => {
           )}
 
           <li>
-            <Link
-              to="/login"
+             <a
               onClick={logout}
-              className="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
-            >
-              <span className="text-xl"><RiLogoutBoxLine /></span>
+              className="flex items-center cursor-pointer p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
+             >
+               <span className="text-xl"><RiLogoutBoxLine /></span>
               <span className="flex-1 ms-3 whitespace-nowrap">Sign Out</span>
-            </Link>
+             </a>
           </li>
         </ul>
       </div>

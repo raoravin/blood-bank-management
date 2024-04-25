@@ -18,7 +18,7 @@ const Login = () => {
           <div className=" login-img col-md-8">
             <img src={bloodImage} alt="" />
           </div>
-          <div className="col-md-4 border-2 form-container">
+          <div className="col-md-4  form-container">
             <Form formTitle={"LoginPage"} submitBtn={"Login"} formType={'login'} />
           </div>
         </div>

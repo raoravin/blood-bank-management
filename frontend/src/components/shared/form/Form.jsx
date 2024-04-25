@@ -15,7 +15,7 @@ const Form = ({ formType, submitBtn, formTitle }) => {
   const [phone, setPhone] = useState("");
   
   return (
-    <div className="col-md-4 form-container">
+    <div className="col-md-4 w-96 ">
       <form
         onSubmit={(e) => {
           if (formType === "login")
@@ -35,10 +35,11 @@ const Form = ({ formType, submitBtn, formTitle }) => {
             );
         }}
       >
-        <h1 className="text-center">{formTitle}</h1>
+        <h1 className="text-center text-3xl font-medium mb-3">{formTitle}</h1>
         <hr />
-        <div className="flex items-center mb-3">
-          <div className="flex items-center space-x-2 mr-2">
+        <div className="flex items-center my-3">
+          <div className="flex items-center w-40 gap-10 mr-2">
+            <div className=" flex gap-2">
             <input
               type="radio"
               className="form-radio"
@@ -51,21 +52,8 @@ const Form = ({ formType, submitBtn, formTitle }) => {
             <label htmlFor="donarRadio" className="text-sm">
               Donar
             </label>
-          </div>
-          <div className="flex items-center space-x-2 mr-2">
-            <input
-              type="radio"
-              className="form-radio"
-              name="role"
-              id="adminRadio"
-              value="admin"
-              onChange={(e) => setRole(e.target.value)}
-            />
-            <label htmlFor="adminRadio" className="text-sm">
-              Admin
-            </label>
-          </div>
-          <div className="flex items-center space-x-2 mr-2">
+            </div>
+            <div className="flex gap-2">
             <input
               type="radio"
               className="form-radio"
@@ -77,9 +65,9 @@ const Form = ({ formType, submitBtn, formTitle }) => {
             <label htmlFor="hospitalRadio" className="text-sm">
               Hospital
             </label>
-          </div>
-          <div className="flex items-center space-x-2 mr-2">
-            <input
+            </div>
+           <div className="flex gap-2">
+           <input
               type="radio"
               className="form-radio"
               name="role"
@@ -91,6 +79,21 @@ const Form = ({ formType, submitBtn, formTitle }) => {
               Organisation
             </label>
           </div>
+           </div>
+          {/* <div className="flex items-center space-x-2 mr-2">
+            <input
+              type="radio"
+              className="form-radio"
+              name="role"
+              id="adminRadio"
+              value="admin"
+              onChange={(e) => setRole(e.target.value)}
+            />
+            <label htmlFor="adminRadio" className="text-sm">
+              Admin
+            </label>
+          </div> */}
+          
         </div>
 
         {(() => {
@@ -200,16 +203,16 @@ const Form = ({ formType, submitBtn, formTitle }) => {
         <div className="flex justify-between items-center">
           {formType === "login" ? (
             <p className="text-sm">
-              Not registered yet? <Link to="/register">Register!</Link>
+              Not registered yet? <Link to="/register"><span className=" ms-1 text-base underline text-blue-700">Register!</span></Link>
             </p>
           ) : (
             <p className="text-sm">
-              Already have an account? <Link to="/login">Login!</Link>
+              Already have an account? <Link to="/login"><span className=" ms-1 text-base underline text-blue-700">Login!</span></Link>
             </p>
           )}
           <button
-            type="submit"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            type="submit" 
+            className="bg-blue-500 mt-3 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           >
             {submitBtn}
           </button>

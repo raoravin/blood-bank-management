@@ -11,6 +11,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { filterFunction } from "../../components/list/shared/filterFunction";
 import moment from 'moment';
+import Modal from "../../components/shared/modal/Modal"
 
 const Inventory = () => {
   const { todo, setTodo } = useContext(todoContext);
@@ -50,7 +51,7 @@ const todosPerPage = 8;
 
   useEffect(() => {
     getBloodRecord()
-  },[])
+  },[todo])
 
 
   const handleSearchChange = (e) => {
@@ -93,12 +94,16 @@ const visibleTodos = filteredTodos.slice(startIndex, endIndex);
       <div className=" w-full h-[42.5rem] relative ">
         <div className="p-6 dark:border-gray-700">
           <div className=" m-auto w-4/5 flex mt-4 justify-between">
-          <div className=''>
+          <div className='flex gap-5'>
           <TodoFilter
               selectedFilter={selectedFilter}
               handleFilterChange={handleFilterChange}
               search={search}
             />
+            <div>
+              <Modal />
+            <h4 type="button" class="btn p-2 bg-gray-500 hover:bg-slate-600 text-white  rounded-md " data-bs-toggle="modal" data-bs-target="#staticBackdrop">+ Add Inventory</h4>
+            </div>
           </div>
             <div className="flex">
               <input
