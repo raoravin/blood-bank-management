@@ -5,7 +5,7 @@
 
 import UserModel from "../models/userSchema";
 
-const sendOtp = async (req,res) => {
+export const sendOtp = async (req,res) => {
     const { email } = req.body;
     const user = await UserModel.findOne({ email });
 
@@ -44,7 +44,7 @@ const sendOtp = async (req,res) => {
 
 
 //verify otp
-const veridyOtp = async(req, res) => {
+export const verifyOtp = async(req, res) => {
     const { email, otp } = req.body;
     const user = await UserModel.findOne({ email });
 
@@ -66,3 +66,5 @@ const veridyOtp = async(req, res) => {
         res.status(500).json({ error: 'Failed to verify email' });
     }
 }
+
+

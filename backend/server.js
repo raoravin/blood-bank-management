@@ -9,7 +9,7 @@ import inventoryRoutes from "./routes/inventoryRoute.js";
 import bloodGroupRoute from "./routes/analyticRoute.js"
 import cookieParser from "cookie-parser";
 import nodemailer from "nodemailer";
-
+import emailVerification from "./routes/emailVeifyRoute.js"
 
 
 
@@ -56,9 +56,10 @@ connectDB();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use("/api/v1/auth", usersRoutes)
-app.use("/api/v1/inventory", inventoryRoutes)
-app.use("/api/v1/analytics", bloodGroupRoute)
+app.use("/api/v1/auth", usersRoutes);
+app.use("/api/v1/inventory", inventoryRoutes);
+app.use("/api/v1/analytics", bloodGroupRoute);
+app.use("/api/v1/email", emailVerification);
 
 
 // Create a nodemailer transporter
