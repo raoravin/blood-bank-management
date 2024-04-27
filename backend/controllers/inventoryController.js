@@ -137,7 +137,6 @@ export const getDonar = async (req, res) => {
       organisation: req.user,
     });
     const donar = await UserModel.find({ _id: { $in: donarId } });
-    console.log(donarId);
 
     res.status(200).json({
       success: true,
