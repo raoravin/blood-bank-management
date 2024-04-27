@@ -1,6 +1,8 @@
 import React from 'react'
 import Form from '../../components/shared/form/Form';
 import bloodImage from "../../assets/images/hospital.jpg";
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 
 const Register = () => {

@@ -8,8 +8,8 @@ import usersRoutes from "./routes/authRoutes.js"
 import inventoryRoutes from "./routes/inventoryRoute.js";
 import bloodGroupRoute from "./routes/analyticRoute.js"
 import cookieParser from "cookie-parser";
-import nodemailer from "nodemailer";
-import emailVerification from "./routes/emailVeifyRoute.js"
+import cron from 'node-cron';
+import UserModel from './models/userSchema.js';
 
 
 
@@ -52,24 +52,42 @@ app.use(
   })
 );
 
+// cron.schedule('*/10 * * * *', async () => {
+//   try {
+//       const thresholdTime = new Date();
+//       thresholdTime.setMinutes(thresholdTime.getMinutes() - 10); // Subtract 10 minutes
+
+//       // Find unverified users created before the threshold time
+//       const unverifiedUsers = await UserModel.find({
+//           emailVerified: false,
+//           createdAt: { $lt: thresholdTime },
+//       });
+
+//       // Delete unverified users
+//       for (const user of unverifiedUsers) {
+//           // Check if user is a Mongoose document
+//           if (user instanceof UserModel) {
+//               await user.remove();
+//           } else {
+//               console.error('Error: User is not an instance of UserModel');
+//           }
+//       }
+
+//       console.log('Deleted unverified users:', unverifiedUsers.length);
+//   } catch (error) {
+//       console.error('Error deleting unverified users:', error);
+//   }
+// });
+
 connectDB();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use("/api/v1/auth", usersRoutes);
-app.use("/api/v1/inventory", inventoryRoutes);
-app.use("/api/v1/analytics", bloodGroupRoute);
-app.use("/api/v1/email", emailVerification);
 
 
-// Create a nodemailer transporter
-const transporter = nodemailer.createTransport({
-  service: 'Gmail',
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-});
+app.use("/api/v1/auth", usersRoutes)
+app.use("/api/v1/inventory", inventoryRoutes)
+app.use("/api/v1/analytics", bloodGroupRoute)
 
 
 

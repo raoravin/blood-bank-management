@@ -1,5 +1,5 @@
 import { toast } from "react-toastify";
-import { userLogin, userRegister } from "../redux/features/auth/authActions";
+import { emailVerify, userLogin, userRegister } from "../redux/features/auth/authActions";
 import store from "../redux/store";
 
 export const handleLogin = (e, email, password, role) => {
@@ -14,7 +14,7 @@ export const handleLogin = (e, email, password, role) => {
       // Handle the action or its payload as needed
       if (userLogin.fulfilled.match(action)) {
         // Handle successful login
-        console.log("Login successful");
+        // console.log("Login successful");
       } else if (userLogin.rejected.match(action)) {
        toast.warning(action.payload.message)
       }
@@ -57,7 +57,7 @@ export const registerHandle = (
       // Handle the action or its payload as needed
       if (userLogin.fulfilled.match(action)) {
         // Handle successful login
-        console.log("Login successful");
+        // console.log("Login successful");
       } else if (userLogin.rejected.match(action)) {
         // Handle login failure
         console.error("Login failed:", action.payload.message);
@@ -67,3 +67,5 @@ export const registerHandle = (
     console.log(error);
   }
 };
+
+

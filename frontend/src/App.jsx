@@ -27,6 +27,8 @@ import HospitalList from "./pages/admin/HospitalList";
 import OrgList from "./pages/admin/OrgList";
 import { ToastToggle } from "flowbite-react";
 import Contact from "./pages/Contact";
+import VerifyOTP from "./pages/auth/verifyEmail";
+import EmailRoute from "./components/Routes/EmailRoute";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -39,6 +41,9 @@ function App() {
   // Access user and userId from the authState
   const { user } = authState;
   const userId = user ? user._id : null;
+  const emailVerified = user ? user?.emailVerified : null
+
+  // console.log(user);
 
   useEffect(() => {
     // Dispatch the thunk action when the component mounts
@@ -46,7 +51,7 @@ function App() {
     if (!userId && location.pathname === "/" ) {
       navigate("/login");
     }
-  }, [dispatch]);
+  }, []);
 
   return (
     <>
@@ -157,7 +162,7 @@ function App() {
         <Route
           path="/login"
           element={
-            <UnprotectedRoutes loggedIn={userId ? true : false}>
+            <UnprotectedRoutes emailVerified={emailVerified} loggedIn={userId ? true : false}>
               <Login />
             </UnprotectedRoutes>
           }
@@ -165,9 +170,18 @@ function App() {
         <Route
           path="/register"
           element={
-            <UnprotectedRoutes loggedIn={userId ? true : false}>
+            <UnprotectedRoutes emailVerified={emailVerified} loggedIn={userId ? true : false}>
               <Register />
             </UnprotectedRoutes>
+          }
+        />
+
+         <Route
+          path="/verify-otp"
+          element={
+            <EmailRoute emailVerified={emailVerified} loggedIn={userId ? true : false}>
+            <VerifyOTP/>
+          </EmailRoute>  
           }
         />
         

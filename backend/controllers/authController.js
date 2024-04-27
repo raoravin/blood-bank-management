@@ -1,5 +1,6 @@
 import UserModel from "../models/userSchema.js";
 import bcrypt from "bcryptjs";
+import nodemailer from "nodemailer"
 
 export const register = async (req, res) => {
   const {
@@ -24,6 +25,12 @@ export const register = async (req, res) => {
       });
     }
 
+     // Generate OTP
+     const generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+     const otpExpires = new Date();
+     otpExpires.setMinutes(otpExpires.getMinutes() + 10); // OTP expires in 3 minutes
+
+
     //hashing password
     const salt = await bcrypt.genSalt(10);
     const hashPassword = await bcrypt.hash(password, salt);
@@ -38,6 +45,8 @@ export const register = async (req, res) => {
       website,
       address,
       phone,
+      emailVerificationOTP: generatedOTP,
+      emailVerificationOTPExpires: otpExpires,
     });
 
     await userData.save();
@@ -52,12 +61,28 @@ export const register = async (req, res) => {
     const { password: pass, ...rest } = userData._doc;
 
 
+    let transporter = nodemailer.createTransport({
+      service: "Gmail",
+      auth:{
+        user: process.env.EMAIL_USER,
+        pass:process.env.EMAIL_PASS
+      }
+    })
+
+    await transporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to:email,
+      subject: "Account verification",
+      text:`Bhosadike OTP bta: ${generatedOTP}`
+    })
 
     res.status(202).json({
       message: "User created Successfully",
       user:rest,
       success:true
     });
+
+    
   } catch (error) {
     console.log(error);
     res.status(500).send({
@@ -68,6 +93,39 @@ export const register = async (req, res) => {
   }
 };
 
+
+
+export const verifyOtp = async(req,res) =>{
+  const { email, otp } = req.body;
+
+  try {
+      const user = await UserModel.findOne({ email });
+
+      if (!user) {
+          return res.status(404).json({ error: 'User not found' });
+      }
+
+      if (
+          user.emailVerificationOTP !== otp ||
+          user.emailVerificationOTPExpires < new Date()
+      ) {
+          return res.status(400).json({ error: 'Invalid OTP or OTP expired' });
+      }
+
+      // Mark email as verified
+      user.emailVerified = true;
+      user.emailVerificationOTP = null;
+      user.emailVerificationOTPExpires = null;
+      await user.save();
+
+      res.status(200).json({ 
+        success: true,
+        message: 'Email verified successfully' });
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Failed to verify email' });
+  }
+}
 
 
 

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getCurrentUser, logoutUser, userLogin, userRegister } from "./authActions";
+import { emailVerify, getCurrentUser, logoutUser, userLogin, userRegister } from "./authActions";
 
 
 const initialState = {
@@ -36,6 +36,20 @@ const authSlice = createSlice({
             state.user = payload.user;
         })
         builder.addCase(userRegister.rejected, (state, {payload}) => {
+            state.loading = false;
+            state.error = payload?.message;
+        })
+
+        //verify-email
+        builder.addCase(emailVerify.pending, (state) => {
+            state.loading=true;
+            state.error = null;
+        })
+        builder.addCase(emailVerify.fulfilled,(state, {payload}) => {
+            state.loading = false;
+            state.user = payload.user;
+        })
+        builder.addCase(emailVerify.rejected, (state, {payload}) => {
             state.loading = false;
             state.error = payload?.message;
         })

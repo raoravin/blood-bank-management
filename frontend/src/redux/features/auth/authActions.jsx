@@ -37,6 +37,37 @@ export const userLogin = createAsyncThunk(
 );
 
 
+export const emailVerify = createAsyncThunk(
+  "auth/verify-email",
+  async ({ email,otp }, { rejectWithValue }) => {
+    try {
+      console.log("yrha 1");
+      const config = {
+        withCredentials: true, // Include this option to send credentials with the request
+      };
+      
+      const { data } = await axios.post(
+        "http://localhost:8080/api/v1/auth/verify-email",
+        { email,otp },config
+      );
+      if (data.success) {
+        console.log("Yaha 2",data);
+        toast.success(data.message);
+      }
+      // You should return the data from the successful request as the fulfilled action payload
+      return data?.user;
+    } catch (error) {
+      // Use rejectWithValue to return an object with a payload property
+      if (error.response && error.response.data.message) {
+        return rejectWithValue({ message: error.response.data.message });
+      } else {
+        return rejectWithValue({ message: error.message });
+      }
+    }
+  }
+);
+
+
 
 
 export const userRegister = createAsyncThunk(
