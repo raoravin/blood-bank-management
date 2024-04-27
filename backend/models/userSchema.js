@@ -54,18 +54,12 @@ const userSchema = new mongoose.Schema({
         required: [true, 'Phone No is required'],
         unique:true
     },
-    otp: {
-        type: String,
-        default: null
-    },
-    otpExpires: {
-        type: Date,
-        default: null
-    },
-    isEmailVerified: {
+    emailVerified: {
         type: Boolean,
         default: false
-    }
+    },
+    emailVerificationOTP: String,
+    emailVerificationOTPExpires: Date
 }, {timestamps:true})
 
 const UserModel = mongoose.model("users", userSchema);

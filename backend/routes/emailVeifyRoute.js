@@ -1,6 +1,6 @@
 
 import express from "express";
-import { sendOtp, verifyOtp } from "../controllers/emailVeification";
+import { sendOtp, verifyOtp } from "../controllers/emailVeification.js";
 
 
 const router = express.Router();
