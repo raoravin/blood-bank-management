@@ -53,6 +53,18 @@ const userSchema = new mongoose.Schema({
         type:String,
         required: [true, 'Phone No is required'],
         unique:true
+    },
+    otp: {
+        type: String,
+        default: null
+    },
+    otpExpires: {
+        type: Date,
+        default: null
+    },
+    isEmailVerified: {
+        type: Boolean,
+        default: false
     }
 }, {timestamps:true})
 
