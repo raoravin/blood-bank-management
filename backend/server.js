@@ -52,32 +52,23 @@ app.use(
   })
 );
 
-// cron.schedule('*/10 * * * *', async () => {
-//   try {
-//       const thresholdTime = new Date();
-//       thresholdTime.setMinutes(thresholdTime.getMinutes() - 10); // Subtract 10 minutes
+cron.schedule('*/5 * * * *', async () => {
+  try {
+      const thresholdTime = new Date();
+      thresholdTime.setMinutes(thresholdTime.getMinutes() - 10); // Subtract 10 minutes
 
-//       // Find unverified users created before the threshold time
-//       const unverifiedUsers = await UserModel.find({
-//           emailVerified: false,
-//           createdAt: { $lt: thresholdTime },
-//       });
+      // Delete unverified users created before the threshold time
+      const deleteResult = await UserModel.deleteMany({
+          emailVerified: false,
+          createdAt: { $lt: thresholdTime },
+      });
 
-//       // Delete unverified users
-//       for (const user of unverifiedUsers) {
-//           // Check if user is a Mongoose document
-//           if (user instanceof UserModel) {
-//               await user.remove();
-//           } else {
-//               console.error('Error: User is not an instance of UserModel');
-//           }
-//       }
+      console.log('Deleted unverified users:', deleteResult.deletedCount);
+  } catch (error) {
+      console.error('Error deleting unverified users:', error);
+  }
+});
 
-//       console.log('Deleted unverified users:', unverifiedUsers.length);
-//   } catch (error) {
-//       console.error('Error deleting unverified users:', error);
-//   }
-// });
 
 connectDB();
 

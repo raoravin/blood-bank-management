@@ -29,6 +29,7 @@ import { ToastToggle } from "flowbite-react";
 import Contact from "./pages/Contact";
 import VerifyOTP from "./pages/auth/verifyEmail";
 import EmailRoute from "./components/Routes/EmailRoute";
+import OtpInputWithValidation from "./pages/auth/OTP";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -42,6 +43,7 @@ function App() {
   const { user } = authState;
   const userId = user ? user._id : null;
   const emailVerified = user ? user?.emailVerified : null
+  console.log(emailVerified);
 
   // console.log(user);
 
@@ -162,7 +164,7 @@ function App() {
         <Route
           path="/login"
           element={
-            <UnprotectedRoutes emailVerified={emailVerified} loggedIn={userId ? true : false}>
+            <UnprotectedRoutes user={user} emailVerified={emailVerified} loggedIn={userId ? true : false}>
               <Login />
             </UnprotectedRoutes>
           }
@@ -170,7 +172,7 @@ function App() {
         <Route
           path="/register"
           element={
-            <UnprotectedRoutes emailVerified={emailVerified} loggedIn={userId ? true : false}>
+            <UnprotectedRoutes user={user} emailVerified={emailVerified} loggedIn={userId ? true : false}>
               <Register />
             </UnprotectedRoutes>
           }
@@ -179,8 +181,8 @@ function App() {
          <Route
           path="/verify-otp"
           element={
-            <EmailRoute emailVerified={emailVerified} loggedIn={userId ? true : false}>
-            <VerifyOTP/>
+            <EmailRoute user={user} emailVerified={emailVerified} loggedIn={userId ? true : false}>
+            <VerifyOTP numberOfDigits={6}/>
           </EmailRoute>  
           }
         />
