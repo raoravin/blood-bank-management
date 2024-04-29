@@ -13,7 +13,7 @@ const Login = () => {
    <>
   
     {
-      loading ? ("") : (
+      loading ? (" ") : (
           <div className="row g-0">
           <div className=" login-img col-md-8">
             <img src={bloodImage} alt="" />

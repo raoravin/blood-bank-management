@@ -41,16 +41,19 @@ function App() {
   const authState = useSelector((state) => state.auth);
   // Access user and userId from the authState
   const { user } = authState;
+  const { loading } = authState;
   const userId = user ? user._id : null;
-  const emailVerified = user ? user?.emailVerified : null
-  console.log(emailVerified);
-
-  // console.log(user);
+  const emailVerified = user ? user?.emailVerified : null;
 
   useEffect(() => {
     // Dispatch the thunk action when the component mounts
     dispatch(getCurrentUser());
-    if (!userId && location.pathname === "/" ) {
+    if (
+      (!user &&
+        !location.pathname === "/verify-otp" &&
+        location.pathname === "/*") ||
+      "/"
+    ) {
       navigate("/login");
     }
   }, []);
@@ -164,7 +167,11 @@ function App() {
         <Route
           path="/login"
           element={
-            <UnprotectedRoutes user={user} emailVerified={emailVerified} loggedIn={userId ? true : false}>
+            <UnprotectedRoutes
+              user={user}
+              emailVerified={emailVerified}
+              loggedIn={userId ? true : false}
+            >
               <Login />
             </UnprotectedRoutes>
           }
@@ -172,23 +179,29 @@ function App() {
         <Route
           path="/register"
           element={
-            <UnprotectedRoutes user={user} emailVerified={emailVerified} loggedIn={userId ? true : false}>
+            <UnprotectedRoutes
+              user={user}
+              emailVerified={emailVerified}
+              loggedIn={userId ? true : false}
+            >
               <Register />
             </UnprotectedRoutes>
           }
         />
 
-         <Route
+        <Route
           path="/verify-otp"
           element={
-            <EmailRoute user={user} emailVerified={emailVerified} loggedIn={userId ? true : false}>
-            <VerifyOTP numberOfDigits={6}/>
-          </EmailRoute>  
+            <EmailRoute
+              user={user}
+              emailVerified={emailVerified}
+              loggedIn={userId ? true : false}
+            >
+              <VerifyOTP numberOfDigits={6} />
+            </EmailRoute>
           }
         />
-        
       </Routes>
-      
     </>
   );
 }

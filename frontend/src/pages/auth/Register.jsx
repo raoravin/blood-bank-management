@@ -6,8 +6,11 @@ import { useSelector } from 'react-redux';
 
 
 const Register = () => {
+  const {loading} = useSelector((state) => state.auth);
+
   return (
-    <div className="row g-0">
+    loading ? (" ") : (
+      <div className="row g-0">
       <div className=" login-img col-md-8">
         <img src={bloodImage} alt="" />
       </div>
@@ -15,6 +18,7 @@ const Register = () => {
         <Form formTitle={"RegisterPage"} formType={"register"} submitBtn={"Register"} />
       </div>
     </div>
+    )
   )
 }
 
