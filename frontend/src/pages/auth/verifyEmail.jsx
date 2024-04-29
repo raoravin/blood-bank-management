@@ -14,7 +14,8 @@ const VerifyOTP = ({ numberOfDigits }) => {
   const [timer, setTimer] = useState(60);
   const [timeoutAlert, setTimeoutAlert] = useState(false);
   const [alertShown, setAlertShown] = useState(false); // Flag to track if alert has been shown
-
+  const [isTimerRunning,setIsTimerRunning] = useState(false)
+  const [shouldResetTimer, setShouldResetTimer] = useState(false); // New state variable
 
 
   const handleVerifyOtp = async (e) => {
@@ -37,10 +38,35 @@ const VerifyOTP = ({ numberOfDigits }) => {
         config
       );
 
-      console.log(response);
       if (response?.data?.success === true) {
         navigate("/home");
       }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
+  const handleResendOtp = async (e) => {
+    e.preventDefault();
+    setShouldResetTimer(true); // Set shouldResetTimer to true
+
+    try {
+      const data = {
+        email: user?.email,
+      };
+
+      const config = {
+        withCredentials: true,
+      };
+
+      const response = await axios.post(
+        "http://localhost:8080/api/v1/auth/resend-otp",
+        data,
+        config
+      );
+;
+      console.log(response?.data?.error);
     } catch (error) {
       console.log(error);
     }
@@ -94,17 +120,28 @@ const VerifyOTP = ({ numberOfDigits }) => {
     const maskedEmailString = maskedUsername + '@' + splitEmail[1];
     setMaskedEmail(maskedEmailString);
 
-    // Timer countdown
-    const intervalId = setInterval(() => {
-      setTimer((prevTimer) => prevTimer - 1);
-    }, 1000);
-
-    // Stop the timer when it reaches 0
-    if (timer === 0) clearInterval(intervalId);
-
-    // Clear the interval when component unmounts
-    return () => clearInterval(intervalId);
-  }, [recipientEmail, timer]);
+     // Timer countdown
+     let intervalId;
+     if (timer > 0 && !shouldResetTimer) {
+       intervalId = setInterval(() => {
+         setTimer((prevTimer) => prevTimer - 1);
+       }, 1000);
+     }
+ 
+     // Stop the timer when it reaches 0
+     if (timer === 0) {
+       clearInterval(intervalId);
+     }
+ 
+     // Reset the timer if shouldResetTimer is true
+     if (shouldResetTimer) {
+       setTimer(60);
+       setShouldResetTimer(false); // Reset the flag
+     }
+ 
+     // Clear the interval when component unmounts
+     return () => clearInterval(intervalId);
+  }, [recipientEmail,shouldResetTimer, timer]);
 
   // Format time in mm:ss
   const formatTime = (time) => {
@@ -153,6 +190,7 @@ const VerifyOTP = ({ numberOfDigits }) => {
           />
         ))}
       </div>
+      <button onClick={handleResendOtp} type="button" className=' underline'>resendOTP</button>
       <button onClick={handleVerifyOtp} type='button' class="py-2.5 mt-5 px-3 me-2 mb-2 text-sm font-medium border-2 border-gray-400 rounded-lg hover:bg-green-500 hover:text-white focus:z-10 focus:ring-4 focus:ring-gray-100" >Verify</button>
       <p className={`text-lg text-white mt-4 ${otpError ? 'error-show' : ''}`}>{otpError}</p>
       </div>

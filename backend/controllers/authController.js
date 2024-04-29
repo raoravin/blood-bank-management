@@ -133,9 +133,19 @@ export const resendOtp = async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
+
+    // Check if the OTP expiration time is within 10 minutes
+    const currentTime = new Date();
+    const otpExpirationTime = new Date(user.emailVerificationOTPExpires);
+    const timeDifference = otpExpirationTime - currentTime;
+    const minutesDifference = Math.floor(timeDifference / (1000 * 60));
+
+    if (minutesDifference > 10) {
+      return res.status(400).json({ error: "Cannot resend OTP" });
+    }
+
      // Generate OTP
      const generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
-
      //update otp in db
      user.emailVerificationOTP = generatedOTP;
      //save in database
