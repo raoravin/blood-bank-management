@@ -28,7 +28,7 @@ export const register = async (req, res) => {
     // Generate OTP
     const generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
     const otpExpires = new Date();
-    otpExpires.setMinutes(otpExpires.getMinutes() + 10); // OTP expires in 3 minutes
+    otpExpires.setMinutes(otpExpires.getMinutes() + 5); // OTP expires in 5 minutes
 
     //hashing password
     const salt = await bcrypt.genSalt(10);
@@ -88,6 +88,8 @@ export const register = async (req, res) => {
   }
 };
 
+
+//verify otp
 export const verifyOtp = async (req, res) => {
   const { email, otp } = req.body;
 
@@ -120,6 +122,51 @@ export const verifyOtp = async (req, res) => {
     res.status(500).json({ error: "Failed to verify email" });
   }
 };
+
+
+//resend otp
+export const resendOtp = async (req, res) => {
+  const { email } = req.body;
+  try {
+    const user = await UserModel.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+     // Generate OTP
+     const generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+
+     //update otp in db
+     user.emailVerificationOTP = generatedOTP;
+     //save in database
+     await user.save();
+
+
+
+     let transporter = nodemailer.createTransport({
+      service: "Gmail",
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
+
+    await transporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: "Account verification",
+      text: `OTP Batawa bhaiya: ${generatedOTP}`,
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "OTP resend successfully",
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "resend OTP failed" });
+  }
+}
 
 export const login = async (req, res) => {
   const { email, password, role } = req.body;
